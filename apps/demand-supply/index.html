@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SkillNestEdu — Demand–Supply Sandbox</title>
+<style>
+:root{--blue:#4d96ff;--teal:#00cfd1;--green:#9ce00b;--dark:#333;--gray:#f2f2f2}
+body{margin:0;background:var(--gray);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--dark)}
+.wrap{max-width:1100px;margin:24px auto;background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.08);overflow:hidden;position:relative}
+header{padding:16px 20px;background:linear-gradient(90deg,var(--teal),var(--green));color:#fff;display:flex;justify-content:space-between;align-items:center}
+header h1{font-size:18px;margin:0}.content{display:grid;grid-template-columns:340px 1fr;gap:16px;padding:16px}
+.card{background:#fff;border:1px solid #eee;border-radius:12px;padding:12px}.row{display:flex;gap:8px;align-items:center}
+label{font-size:12px;font-weight:600;color:#444}input[type="range"]{width:100%}
+canvas{width:100%;height:540px;background:#fff;border:1px solid #eee;border-radius:10px}
+.out{font-size:14px;padding:8px;background:#fafafa;border:1px dashed #ddd;border-radius:10px}
+.btns{display:flex;gap:8px;flex-wrap:wrap}button{padding:8px 12px;border:0;border-radius:9999px;background:#4d96ff;color:#fff;font-weight:700;cursor:pointer}
+button.secondary{background:var(--gray);color:var(--dark)}footer{padding:8px 12px;font-size:12px;display:flex;justify-content:space-between;align-items:center}
+.wm{position:absolute;inset:0;pointer-events:none;opacity:.06;background-image:repeating-linear-gradient(45deg,#000 0 2px,transparent 2px 120px);mix-blend-mode:multiply}
+@media(max-width:900px){.content{grid-template-columns:1fr}}
+</style></head><body oncontextmenu="return false">
+<div class="wrap"><div class="wm"></div>
+<header><h1>SkillNestEdu — Demand–Supply Sandbox</h1><span>You Matter.</span></header>
+<div class="content">
+  <div class="card">
+    <p style="margin-top:0">Model: <code>Qd = a_d - b_d·P</code>; <code>Qs = -a_s + b_s·P</code></p>
+    <div class="row"><label>a_d (Demand intercept):</label><input id="ad" type="range" min="10" max="200" value="120" oninput="sync('adV',this.value)"><span id="adV">120</span></div>
+    <div class="row"><label>b_d (Demand slope):</label><input id="bd" type="range" min="1" max="20" value="6" oninput="sync('bdV',this.value)"><span id="bdV">6</span></div>
+    <div class="row"><label>a_s (Supply intercept):</label><input id="as" type="range" min="10" max="200" value="40" oninput="sync('asV',this.value)"><span id="asV">40</span></div>
+    <div class="row"><label>b_s (Supply slope):</label><input id="bs" type="range" min="1" max="20" value="4" oninput="sync('bsV',this.value)"><span id="bsV">4</span></div>
+    <div class="row"><label>Tax/Subsidy (ΔP, +tax / −subsidy):</label><input id="tax" type="range" min="-20" max="20" value="0" oninput="sync('txV',this.value)"><span id="txV">0</span></div>
+    <div class="btns"><button onclick="render()">Update</button><button class="secondary" onclick="downloadPNG()">Download PNG</button></div>
+    <div id="stats" class="out">P* = — | Q* = —</div>
+  </div>
+  <div class="card"><canvas id="c"></canvas></div>
+</div>
+<footer><div>© SkillNestEdu • IB Research & Quant Boot Camp</div><div>Right-click disabled • Watermark on</div></footer>
+</div>
+<script>
+function sync(id,v){ document.getElementById(id).textContent=v; }
+function solve(ad,bd,a_s,b_s,tax){
+  const adp = ad - bd*tax;
+  const P = (adp + a_s) / (bd + b_s);
+  const Q = ad - bd*(P + tax);
+  return {P,Q};
+}
+function g(id){ return document.getElementById(id); }
+function render(){
+  const ad=+g('ad').value, bd=+g('bd').value, a_s=+g('as').value, b_s=+g('bs').value, tax=+g('tax').value;
+  const {P,Q} = solve(ad,bd,a_s,b_s,tax);
+  g('stats').textContent = `P* = ${P.toFixed(2)} • Q* = ${Q.toFixed(2)}`;
+  draw(ad,bd,a_s,b_s,tax,P,Q);
+}
+function draw(ad,bd,a_s,b_s,tax,P,Q){
+  const c=g('c'), ctx=c.getContext('2d'), r=c.getBoundingClientRect();
+  c.width=Math.floor(r.width*2); c.height=Math.floor(r.height*2); ctx.scale(2,2);
+  const pad=40,w=r.width,h=r.height; ctx.clearRect(0,0,w,h); ctx.fillStyle='#fff'; ctx.fillRect(0,0,w,h);
+  ctx.save(); ctx.globalAlpha=.08; ctx.fillStyle='#000';
+  for(let i=-200;i<w+200;i+=160){ for(let j=-200;j<h+200;j+=160){ ctx.save(); ctx.translate(i,j); ctx.rotate(-Math.PI/4); ctx.fillText('SkillNestEdu — You Matter',0,0); ctx.restore(); } } ctx.restore();
+  ctx.strokeStyle='#ddd'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(pad,pad); ctx.lineTo(pad,h-pad); ctx.lineTo(w-pad,h-pad); ctx.stroke();
+  const Pmax=Math.max((ad+a_s)/Math.max(1,Math.min(5,(bd+b_s)))*2,50), Qmax=Math.max(ad*1.2,50);
+  const sx=q=> pad + q/Qmax*(w-2*pad), sy=p=> (h-pad) - p/Pmax*(h-2*pad);
+  const demandQ=(p,t)=> ad - bd*(p+t), supplyQ=p=> -a_s + b_s*p;
+  ctx.strokeStyle='#4d96ff'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(sx(Math.max(0,demandQ(0,0))), sy(0)); ctx.lineTo(sx(Math.max(0,demandQ(Pmax,0))), sy(Pmax)); ctx.stroke();
+  if(tax!==0){ ctx.setLineDash([6,6]); ctx.strokeStyle='#a77bff'; ctx.beginPath(); ctx.moveTo(sx(Math.max(0,demandQ(0,tax))), sy(0)); ctx.lineTo(sx(Math.max(0,demandQ(Pmax,tax))), sy(Pmax)); ctx.stroke(); ctx.setLineDash([]); }
+  ctx.strokeStyle='#9ce00b'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(sx(Math.max(0,supplyQ(0))), sy(0)); ctx.lineTo(sx(Math.max(0,supplyQ(Pmax))), sy(Pmax)); ctx.stroke();
+  ctx.fillStyle='#000'; ctx.beginPath(); ctx.arc(sx(Q), sy(P), 4, 0, Math.PI*2); ctx.fill(); ctx.font='12px system-ui,sans-serif';
+  ctx.fillText(`P*=${P.toFixed(2)}`, sx(Q)+6, sy(P)-6); ctx.fillText(`Q*=${Q.toFixed(2)}`, sx(Q)+6, sy(P)+10);
+  ctx.fillStyle='#4d96ff'; ctx.fillRect(w-210,20,10,10); ctx.fillStyle='#000'; ctx.fillText('Demand (baseline)', w-192,30);
+  ctx.fillStyle='#9ce00b'; ctx.fillRect(w-210,40,10,10); ctx.fillStyle='#000'; ctx.fillText('Supply', w-192,50);
+  if(tax!==0){ ctx.fillStyle='#a77bff'; ctx.fillRect(w-210,60,10,10); ctx.fillStyle='#000'; ctx.fillText('Demand (with tax/subsidy)', w-192,70); }
+  ctx.fillText('Quantity (Q)', w/2, h-12); ctx.save(); ctx.translate(12, h/2); ctx.rotate(-Math.PI/2); ctx.fillText('Price (P)', 0, 0); ctx.restore();
+}
+function downloadPNG(){ const a=document.createElement('a'); a.download='demand_supply.png'; a.href=g('c').toDataURL('image/png'); a.click(); }
+render();
+document.addEventListener('keydown', e=>{ if((e.ctrlKey||e.metaKey)&&['s','p','u'].includes(e.key.toLowerCase())) e.preventDefault(); });
+</script></body></html>

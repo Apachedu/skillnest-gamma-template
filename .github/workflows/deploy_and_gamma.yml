@@ -1,0 +1,77 @@
+name: Deploy Apps & Generate Gamma Deck
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy-and-generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Ensure Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Prepare SSH key (if provided)
+        if: ${{ secrets.SFTP_PRIVATE_KEY != '' }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SFTP_PRIVATE_KEY }}" > ~/.ssh/sftp_key
+          chmod 600 ~/.ssh/sftp_key
+          printf "Host sftphost\n  HostName ${{ secrets.SFTP_HOST }}\n  User ${{ secrets.SFTP_USER }}\n  IdentityFile ~/.ssh/sftp_key\n  StrictHostKeyChecking no\n" > ~/.ssh/config
+
+      - name: Create remote dirs
+        if: ${{ secrets.SFTP_PRIVATE_KEY != '' }}
+        run: |
+          ssh sftphost "mkdir -p '${{ secrets.SFTP_DEST }}/apps/rq-builder' '${{ secrets.SFTP_DEST }}/apps/correlation' '${{ secrets.SFTP_DEST }}/apps/demand-supply'"
+
+      - name: Upload via scp (key auth)
+        if: ${{ secrets.SFTP_PRIVATE_KEY != '' }}
+        run: |
+          scp -r apps/rq-builder/index.html sftphost:"${{ secrets.SFTP_DEST }}/apps/rq-builder/index.html"
+          scp -r apps/correlation/index.html sftphost:"${{ secrets.SFTP_DEST }}/apps/correlation/index.html"
+          scp -r apps/demand-supply/index.html sftphost:"${{ secrets.SFTP_DEST }}/apps/demand-supply/index.html"
+
+      - name: (Fallback) Install sshpass for password auth
+        if: ${{ secrets.SFTP_PRIVATE_KEY == '' && secrets.SFTP_PASS != '' }}
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Upload via scp (password)
+        if: ${{ secrets.SFTP_PRIVATE_KEY == '' && secrets.SFTP_PASS != '' }}
+        run: |
+          mkdir -p ~/.ssh && printf "StrictHostKeyChecking no\n" > ~/.ssh/config
+          SSHPASS="${{ secrets.SFTP_PASS }}" sshpass -e scp -r apps/rq-builder/index.html "${{ secrets.SFTP_USER }}@${{ secrets.SFTP_HOST }}:${{ secrets.SFTP_DEST }}/apps/rq-builder/index.html"
+          SSHPASS="${{ secrets.SFTP_PASS }}" sshpass -e scp -r apps/correlation/index.html "${{ secrets.SFTP_USER }}@${{ secrets.SFTP_HOST }}:${{ secrets.SFTP_DEST }}/apps/correlation/index.html"
+          SSHPASS="${{ secrets.SFTP_PASS }}" sshpass -e scp -r apps/demand-supply/index.html "${{ secrets.SFTP_USER }}@${{ secrets.SFTP_HOST }}:${{ secrets.SFTP_DEST }}/apps/demand-supply/index.html"
+
+      - name: Generate Gamma deck (beta API)
+        env:
+          GAMMA_KEY: ${{ secrets.GAMMA_API_KEY }}
+          HOST:      ${{ secrets.HOST }}
+          DECK_FORMAT: ${{ vars.DECK_FORMAT || 'presentation' }}
+          THEME_NAME:  ${{ vars.THEME_NAME  || 'Oasis' }}
+          EXPORT_AS:   ${{ vars.EXPORT_AS   || '' }}
+          DOWNLOAD_EXPORTS: "true"
+          BATCH_CSV: ${{ vars.BATCH_CSV || '' }}
+        run: |
+          node scripts/gamma_generate.js
+          echo "Deck (and any export URLs) are printed above."
+          echo "Saving artifacts if present…"
+          if [ -f last_generation.json ]; then
+            cat last_generation.json | jq -r '.deckUrl // empty' > deck_url.txt || true
+          fi
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gamma-output
+          path: |
+            last_generation.json
+            deck_url.txt
+            downloads/**
+          if-no-files-found: ignore

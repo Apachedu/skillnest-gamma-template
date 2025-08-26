@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SkillNestEdu — Correlation Sandbox</title>
+<style>
+:root{--blue:#4d96ff;--purple:#a77bff;--dark:#333;--gray:#f2f2f2}
+*{box-sizing:border-box}body{margin:0;background:var(--gray);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--dark)}
+.wrap{max-width:1100px;margin:24px auto;background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.08);overflow:hidden;position:relative}
+header{padding:16px 20px;background:linear-gradient(90deg,var(--purple),var(--blue));color:#fff;display:flex;justify-content:space-between;align-items:center}
+header h1{font-size:18px;margin:0}.content{display:grid;grid-template-columns:340px 1fr;gap:16px;padding:16px}
+.card{background:#fff;border:1px solid #eee;border-radius:12px;padding:12px}label{font-size:12px;font-weight:600;color:#444}
+input[type="range"]{width:100%}.row{display:flex;gap:8px;align-items:center}.out{font-size:14px;padding:8px;background:#fafafa;border:1px dashed #ddd;border-radius:10px}
+canvas{width:100%;height:520px;background:#fff;border:1px solid #eee;border-radius:10px}.btns{display:flex;gap:8px;flex-wrap:wrap}
+button{padding:8px 12px;border:0;border-radius:9999px;background:var(--blue);color:#fff;font-weight:700;cursor:pointer}
+button.secondary{background:var(--gray);color:var(--dark)}footer{padding:8px 12px;font-size:12px;display:flex;justify-content:space-between;align-items:center}
+.wm{position:absolute;inset:0;pointer-events:none;opacity:.06;background-image:repeating-linear-gradient(45deg,#000 0 2px,transparent 2px 120px);mix-blend-mode:multiply}
+@media(max-width:900px){.content{grid-template-columns:1fr}}
+</style></head><body oncontextmenu="return false">
+<div class="wrap"><div class="wm"></div>
+<header><h1>SkillNestEdu — Correlation Sandbox</h1><span>You Matter.</span></header>
+<div class="content">
+  <div class="card">
+    <div class="row"><label>Points (n):</label><input id="n" type="range" min="10" max="500" value="120" oninput="sync('nVal',this.value)"><span id="nVal">120</span></div>
+    <div class="row"><label>Slope (β):</label><input id="slope" type="range" min="-3" max="3" step="0.1" value="0.8" oninput="sync('sVal',this.value)"><span id="sVal">0.8</span></div>
+    <div class="row"><label>Noise (σ):</label><input id="noise" type="range" min="0" max="5" step="0.1" value="1.4" oninput="sync('noVal',this.value)"><span id="noVal">1.4</span></div>
+    <div class="row"><label>Seed:</label><input id="seed" type="number" value="42" style="width:110px"></div>
+    <div class="btns">
+      <button onclick="render()">Render</button>
+      <button class="secondary" onclick="toggleTrend()">Toggle Trendline</button>
+      <button class="secondary" onclick="downloadPNG()">Download PNG</button>
+    </div>
+    <div id="stats" class="out">r = — | Note: Correlation ≠ Causation</div>
+  </div>
+  <div class="card"><canvas id="c"></canvas></div>
+</div>
+<footer><div>© SkillNestEdu • IB Research & Quant Boot Camp</div><div>Right-click disabled • Watermark on</div></footer>
+</div>
+<script>
+let showTrend = true;
+function sync(id,v){ document.getElementById(id).textContent=v; }
+function rng(seed){ let s=seed%2147483647; if(s<=0)s+=2147483646; return ()=> (s=s*16807%2147483647)/2147483647;}
+function randn(r){ let u=0,v=0; while(u===0)u=r(); while(v===0)v=r(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+function pearson(x,y){ const n=x.length,mx=x.reduce((a,b)=>a+b,0)/n,my=y.reduce((a,b)=>a+b,0)/n; let num=0,dx=0,dy=0;
+  for(let i=0;i<n;i++){ const a=x[i]-mx,b=y[i]-my; num+=a*b; dx+=a*a; dy+=b*b } return num/Math.sqrt(dx*dy); }
+function el(id){ return document.getElementById(id); }
+function render(){
+  const n=+el('n').value, slope=+el('slope').value, noise=+el('noise').value, seed=+el('seed').value;
+  const r=rng(seed), x=[], y=[];
+  for(let i=0;i<n;i++){ const xi=(r()*10)-5; x.push(xi); y.push(slope*xi + randn(r)*noise); }
+  draw(x,y); const rr=pearson(x,y); el('stats').textContent=`r = ${rr.toFixed(3)} • n = ${n}`;
+}
+function draw(x,y){
+  const canvas=el('c'), ctx=canvas.getContext('2d'), rect=canvas.getBoundingClientRect();
+  canvas.width=Math.floor(rect.width*2); canvas.height=Math.floor(rect.height*2); ctx.scale(2,2);
+  const xmin=Math.min(...x), xmax=Math.max(...x), ymin=Math.min(...y), ymax=Math.max(...y), pad=20;
+  const sx=v=> pad + (v-xmin)/(xmax-xmin||1)*(rect.width-pad*2);
+  const sy=v=> rect.height - pad - (v-ymin)/(ymax-ymin||1)*(rect.height-pad*2);
+  ctx.clearRect(0,0,rect.width,rect.height); ctx.fillStyle='#fff'; ctx.fillRect(0,0,rect.width,rect.height);
+  ctx.save(); ctx.globalAlpha=.08; ctx.fillStyle='#000';
+  for(let i=-200;i<rect.width+200;i+=160){ for(let j=-200;j<rect.height+200;j+=160){ ctx.save(); ctx.translate(i,j); ctx.rotate(-Math.PI/4); ctx.fillText('SkillNestEdu — You Matter',0,0); ctx.restore(); } } ctx.restore();
+  ctx.strokeStyle='#ddd'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(pad, sy(0)); ctx.lineTo(rect.width-pad, sy(0)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(sx(0), pad); ctx.lineTo(sx(0), rect.height-pad); ctx.stroke();
+  ctx.fillStyle='#4d96ff'; for(let i=0;i<x.length;i++){ ctx.beginPath(); ctx.arc(sx(x[i]), sy(y[i]), 3, 0, Math.PI*2); ctx.fill(); }
+  if(showTrend){ const n=x.length, mx=x.reduce((a,b)=>a+b,0)/n, my=y.reduce((a,b)=>a+b,0)/n;
+    let num=0,den=0; for(let i=0;i<n;i++){ num+=(x[i]-mx)*(y[i]-my); den+=(x[i]-mx)*(x[i]-mx); }
+    const b=num/(den||1), a=my-b*mx, y1=a+b*xmin, y2=a+b*xmax;
+    ctx.strokeStyle='#9ce00b'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(sx(xmin), sy(y1)); ctx.lineTo(sx(xmax), sy(y2)); ctx.stroke();
+  }
+}
+function toggleTrend(){ showTrend=!showTrend; render(); }
+function downloadPNG(){ const a=document.createElement('a'); a.download='correlation_sandbox.png'; a.href=el('c').toDataURL('image/png'); a.click(); }
+render();
+document.addEventListener('keydown', e=>{ if((e.ctrlKey||e.metaKey)&&['s','p','u'].includes(e.key.toLowerCase())) e.preventDefault(); });
+</script></body></html>

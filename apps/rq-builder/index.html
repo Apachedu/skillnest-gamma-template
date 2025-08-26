@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SkillNestEdu — RQ Builder</title>
+<style>
+:root{--blue:#4d96ff;--teal:#00cfd1;--dark:#333;--gray:#f2f2f2}
+html,body{margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--gray);color:var(--dark)}
+.wrap{max-width:980px;margin:24px auto;background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.08);overflow:hidden;position:relative}
+header{padding:16px 20px;background:linear-gradient(90deg,var(--blue),var(--teal));color:#fff;display:flex;justify-content:space-between;align-items:center}
+header h1{font-size:18px;margin:0}.content{padding:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+label{font-size:13px;font-weight:600;color:#444;display:block;margin-bottom:6px}
+input[type="text"],select,textarea{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:10px;font-size:14px;background:#fff}
+textarea{min-height:64px}.card{background:#fff;border:1px solid #eee;border-radius:14px;padding:16px}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+button{padding:10px 14px;border:0;border-radius:9999px;cursor:pointer;font-weight:700;background:var(--blue);color:#fff;box-shadow:0 6px 14px rgba(77,150,255,.3)}
+button.secondary{background:var(--gray);color:var(--dark)}
+.output{background:#fafafa;border:1px dashed #ddd;border-radius:12px;padding:16px;white-space:pre-wrap}
+.muted{color:#666;font-size:12px}
+footer{padding:10px 16px;font-size:12px;background:#fff;display:flex;justify-content:space-between;align-items:center}
+.wm{position:absolute;inset:0;pointer-events:none;opacity:.06;background-image:repeating-linear-gradient(45deg,#000 0 2px,transparent 2px 120px);mix-blend-mode:multiply}
+@media print{header,.btns{display:none!important}.wrap{box-shadow:none;border:0}}
+</style></head><body oncontextmenu="return false">
+<div class="wrap"><div class="wm"></div>
+<header><h1>SkillNestEdu — Research Question (RQ) Builder</h1><span>You Matter.</span></header>
+<div class="content"><div class="grid">
+  <div class="card">
+    <h3>Step 1: Context</h3>
+    <label>Broad area</label><input id="broad" type="text" placeholder="e.g., Economics / Business / Biology" />
+    <label>Sub-theme / phenomenon</label><input id="sub" type="text" placeholder="e.g., digital payments, motivation" />
+    <label>Population / group</label><input id="pop" type="text" placeholder="e.g., IB students in Grade 12" />
+    <label>Place / context</label><input id="place" type="text" placeholder="e.g., Mumbai, India" />
+    <label>Time window</label><input id="timew" type="text" placeholder="e.g., 2024–2025" />
+  </div>
+  <div class="card">
+    <h3>Step 2: Variables & Design</h3>
+    <label>Independent variable (IV)</label><input id="iv" type="text" placeholder="e.g., weekly study hours" />
+    <label>Dependent variable (DV)</label><input id="dv" type="text" placeholder="e.g., test scores" />
+    <label>Direction (quant)</label>
+    <select id="direction"><option>positive</option><option>negative</option><option>non-linear</option><option>unknown / exploratory</option></select>
+    <label>Theory / mechanism (why?)</label><textarea id="theory" placeholder="e.g., spaced repetition improves recall"></textarea>
+  </div>
+  <div class="card">
+    <h3>Step 3: Outputs</h3>
+    <div class="btns">
+      <button onclick="generate()">Generate RQ + Hypothesis/Aim</button>
+      <button class="secondary" onclick="copyOut()">Copy</button>
+      <button class="secondary" onclick="window.print()">Print / Save PDF</button>
+    </div>
+    <p class="muted">No servers. No tracking. Everything stays in your browser.</p>
+    <div id="out" class="output">Fill in the fields, then click “Generate”.</div>
+  </div>
+</div></div>
+<footer><div>© SkillNestEdu • IB Research & Quant Boot Camp</div><div class="muted">Brand colors & watermark applied.</div></footer>
+</div>
+<script>
+function v(id){ return (document.getElementById(id).value || '').trim(); }
+function generate(){
+  const pop=v('pop'), place=v('place'), timew=v('timew'), iv=v('iv'), dv=v('dv'), dir=v('direction'), theory=v('theory');
+  const rq = `To what extent is there a ${dir} relationship between ${iv||'IV'} and ${dv||'DV'} among ${pop||'the target population'} in ${place||'the study context'} (${timew||'the study period'})?`;
+  const hyp = (dir==='unknown / exploratory')
+    ? `Aim (exploratory): To explore how ${iv||'IV'} relates to ${dv||'DV'} among ${pop||'the population'} in ${place||'context'} (${timew||'time'}).`
+    : `Hypothesis: If ${iv||'IV'} increases, then ${dv||'DV'} will show a ${dir} change among ${pop||'the population'} in ${place||'context'} (${timew||'time'}) because ${theory||'the proposed mechanism'}.`;
+  const fast = ['- Focused: place/time/population specified','- Assessable: variables measurable','- Situated: context stated','- Trackable: collectable within 2 weeks'].join('\n');
+  document.getElementById('out').textContent = ['Research Question (auto-draft):',rq,'',(dir==='unknown / exploratory')?'Aim (qual/mixed):':'Hypothesis (quant):',hyp,'','FAST Checklist:',fast].join('\n');
+}
+async function copyOut(){ try{ await navigator.clipboard.writeText(document.getElementById('out').textContent); alert('Copied!'); }catch(e){} }
+document.addEventListener('keydown', e=>{ if((e.ctrlKey||e.metaKey)&&['s','p','u'].includes(e.key.toLowerCase())) e.preventDefault(); });
+</script></body></html>
