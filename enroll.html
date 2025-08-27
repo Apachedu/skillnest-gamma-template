@@ -9,17 +9,20 @@ h1{margin-top:0}
 label{font-size:14px;font-weight:600}
 input,select,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;margin:6px 0 14px 0}
 .btn{display:inline-block;background:#0b5fff;color:#fff;padding:10px 16px;border-radius:9999px;text-decoration:none;font-weight:700}
+.btn.alt{background:#111}
+.row{display:flex;gap:10px;flex-wrap:wrap}
 small{color:#666}
+.note{background:#f1f5ff;border:1px solid #d8e3ff;border-radius:10px;padding:10px;margin-top:12px}
 </style></head><body>
 <div class="wrap">
   <div class="card">
     <h1>Enroll / Join Waitlist</h1>
     <p>Seats are limited. Fill this quick form and we’ll confirm within 24 hours.</p>
 
-    <form action="https://formsubmit.co/contact@skillnestedu.com" method="POST">
+    <form id="enrollForm" action="https://formsubmit.co/contact@skillnestedu.com" method="POST" novalidate>
       <input type="hidden" name="_subject" value="Boot Camp Enrollment">
       <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://apachedu.github.io/skillnest-gamma-template/thanks.html">
+      <input type="hidden" id="nextUrl" name="_next" value="">
 
       <label>Student name</label><input name="name" required>
       <label>Parent email</label><input name="email" type="email" required>
@@ -33,11 +36,52 @@ small{color:#666}
         <option>Weekdays (Evening IST)</option><option>Weekends (Sat–Sun)</option>
       </select>
       <label>Anything we should know?</label><textarea name="notes" rows="4"></textarea>
-      <button class="btn" type="submit">Submit</button>
+
+      <div class="row">
+        <button class="btn alt" type="submit" id="submitOnly">Submit (no payment)</button>
+        <button class="btn" type="button" id="submitAndPay">Submit & Pay</button>
+      </div>
+      <div class="note">
+        <strong>Pay link:</strong> works with Razorpay or Stripe Payment Links. After you generate your link, paste it into this page’s script (see instructions below).
+      </div>
     </form>
 
-    <p><small>No payment is collected on this page. We confirm over email first.</small></p>
+    <p class="note"><small>No payment is collected on this page unless you click “Submit & Pay”. We confirm every submission by email.</small></p>
     <p><small>If the form is blocked on school networks, email us: contact@skillnestedu.com</small></p>
   </div>
 </div>
+
+<script>
+/* ====== Configure ONE payment link below (replace the placeholder) ====== */
+// Razorpay Payment Link example: https://rzp.io/i/abc123xyz
+// Stripe Payment Link example:   https://buy.stripe.com/abc123xyz
+const PAY_LINK = "https://rzp.io/i/REPLACE_WITH_YOUR_LINK";
+/* ======================================================================= */
+
+const form = document.getElementById('enrollForm');
+const nextField = document.getElementById('nextUrl');
+
+function siteBase(){
+  const base = window.location.origin + window.location.pathname.replace(/\\/[^\\/]*$/, "/");
+  return base;
+}
+const THANKS_URL = siteBase() + "thanks.html";
+
+function setNext(url){ nextField.value = url; }
+
+// Default: simple submit goes to thank-you page
+document.getElementById('submitOnly').addEventListener('click', function(){
+  setNext(THANKS_URL);
+});
+
+// Submit + pay: send the form, then land on the pay link
+document.getElementById('submitAndPay').addEventListener('click', function(){
+  // Basic required checks using HTML5 validity
+  if(!form.reportValidity()){ return; }
+  const hasPayLink = PAY_LINK && !/REPLACE_WITH_YOUR_LINK/.test(PAY_LINK);
+  setNext(hasPayLink ? PAY_LINK : THANKS_URL);
+  if(!hasPayLink){ alert("Payment link not set yet. Submitting your details only."); }
+  form.submit();
+});
+</script>
 </body></html>
