@@ -1,83 +1,103 @@
-<!doctype html><html><head>
+<!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Research Resources — SkillNestEdu</title>
 <link rel="icon" href="./assets/logo-skillnest.png">
 <style>
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#fafafa;color:#222}
-.wrap{max-width:980px;margin:40px auto;padding:0 16px}
-.brand{display:flex;align-items:center;gap:10px;margin:0 0 14px 0}
-.brand img{width:40px;height:40px;border-radius:8px}
-.brand b{font-size:20px}
-.card{background:#fff;border:1px solid #eee;border-radius:16px;padding:18px;margin-bottom:14px}
-h1,h2{margin:8px 0}
-ul{padding-left:18px}
-kbd{background:#eee;border-radius:6px;padding:2px 6px}
-.code{font-family:ui-monospace,Menlo,monospace;background:#f6f8fa;border:1px solid #eee;border-radius:8px;padding:8px}
+:root{--bg:#fafafa;--card:#fff;--b:#eee;--text:#111;--muted:#555;--brand:#0b5fff}
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:var(--bg);color:var(--text)}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+.card{background:var(--card);border:1px solid var(--b);border-radius:16px;padding:18px;margin:16px 0}
+h1{font-size:28px;margin:10px 0}h2{font-size:20px;margin:0 0 10px 0}
+p,li{color:var(--muted)}a{color:var(--brand);text-decoration:none}
+.k{background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+pre{background:#0a0a0a;color:#e5e7eb;padding:12px;border-radius:10px;overflow:auto}
+.badge{display:inline-block;background:#eef3ff;border:1px solid #dbe4ff;color:#2643d6;border-radius:999px;padding:4px 10px;font-weight:700;font-size:12px}
+.btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;padding:10px 14px;border-radius:999px;font-weight:800}
 </style>
 </head><body>
+
+<div id="topnav"></div>
+<script>fetch("nav.html").then(r=>r.text()).then(h=>{document.getElementById("topnav").outerHTML=h});</script>
+
 <div class="wrap">
-  <div class="brand">
-    <img src="./assets/logo-skillnest.png" alt="SkillNestEdu logo">
-    <b>SkillNest<span style="color:#0b5fff">Edu</span></b>
+  <div class="card">
+    <span class="badge">IB-aligned</span>
+    <h1>Research Resources</h1>
+    <p>Find credible sources, collect data, cite correctly, and structure your IB EE/IA.</p>
   </div>
 
-  <div class="card">
-    <h1>Find quality sources</h1>
-    <ul>
-      <li><b>Google Scholar:</b> search topic + filetype:pdf; sort by date; read abstracts first.</li>
-      <li><b>Official stats:</b> World Bank, IMF, RBI, NSO, UNESCO; download CSV/XLS for analysis.</li>
-      <li><b>Open journals:</b> DOAJ lists peer-reviewed OA journals by subject.</li>
-      <li><b>School access:</b> if you have JSTOR/EBSCO, log in through your library portal.</li>
-      <li><b>Evaluate:</b> author credibility, publication, date, method, sample size, bias.</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h2>Track sources as you go</h2>
-    <ul>
-      <li>Create a Sheet with columns: Author • Year • Title • Source/URL • Notes • How I’ll use it.</li>
-      <li>Always capture the <b>permalink</b> or DOI, not just a Google search URL.</li>
-      <li>Keep page numbers for quotes/paraphrases.</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h2>Referencing styles (IB rule)</h2>
-    <p>IB accepts any <b>recognized style</b> (APA, MLA, Chicago) as long as you use it <b>consistently</b>. Pick one and stick to it.</p>
-    <div class="grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px">
-      <div class="card">
-        <h3>APA (7th) quick examples</h3>
-        <div class="code">
-Article: Author, A. A. (Year). Title. <i>Journal</i>, volume(issue), pages. DOI<br><br>
-Website: Author/Org. (Year, Month Day). Title. <i>Site</i>. URL
-        </div>
+  <div class="grid">
+    <div class="card">
+      <h2>Find papers & reviews</h2>
+      <ul>
+        <li><a href="https://scholar.google.com" target="_blank" rel="noopener">Google Scholar</a> — broad academic search; use quotes and year filters.</li>
+        <li><a href="https://www.jstor.org" target="_blank" rel="noopener">JSTOR</a> and <a href="https://www.doaj.org" target="_blank" rel="noopener">DOAJ</a> — journals incl. open access.</li>
+        <li><a href="https://ideas.repec.org" target="_blank" rel="noopener">RePEc/IDEAS</a> — economics working papers.</li>
+        <li><a href="https://papers.ssrn.com" target="_blank" rel="noopener">SSRN</a> — management/finance preprints.</li>
+      </ul>
+      <div class="k">
+        Tip: search like <b>"carbon tax" India site:oecd.org 2018..2024 PDF</b> or use <b>intitle:review</b> for survey articles.
       </div>
-      <div class="card">
-        <h3>MLA (9th) quick examples</h3>
-        <div class="code">
-Article: Author Last, First. "Title." <i>Journal</i>, vol., no., Year, pp.–pp. DOI/URL<br><br>
-Website: Author/Org. "Title." <i>Site</i>, Day Month Year, URL
-        </div>
-      </div>
+    </div>
+
+    <div class="card">
+      <h2>Official data (Economics/BM)</h2>
+      <ul>
+        <li><a href="https://data.worldbank.org" target="_blank" rel="noopener">World Bank Data</a>, <a href="https://stats.oecd.org" target="_blank" rel="noopener">OECD Stats</a>, <a href="https://www.imf.org/en/Data" target="_blank" rel="noopener">IMF</a>, <a href="https://unstats.un.org" target="_blank" rel="noopener">UN Data</a></li>
+        <li>India: <a href="https://www.mospi.gov.in" target="_blank" rel="noopener">MoSPI</a>, <a href="https://www.rbi.org.in/Scripts/Statistics.aspx" target="_blank" rel="noopener">RBI</a>, <a href="https://sebi.gov.in" target="_blank" rel="noopener">SEBI</a></li>
+        <li>Markets: <a href="https://www.nseindia.com" target="_blank" rel="noopener">NSE</a>, <a href="https://www.bseindia.com" target="_blank" rel="noopener">BSE</a></li>
+        <li>Consumer/tech: company annual reports, investor presentations, Statista (if school has access)</li>
+      </ul>
+      <div class="k">Always note: source, series name, units, frequency, and date downloaded.</div>
+    </div>
+
+    <div class="card">
+      <h2>Primary data (quick guide)</h2>
+      <ul>
+        <li>Surveys: 8–15 well-designed questions, pilot test with 3–5 people, avoid double-barrel items.</li>
+        <li>Sampling: describe who, where, how many, and how selected.</li>
+        <li>Interviews: 6–10 semi-structured questions; record permission and anonymise.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Citation & bibliography</h2>
+      <ul>
+        <li>Use one style consistently (APA or MLA recommended by many IB schools).</li>
+        <li><a href="https://www.zotero.org" target="_blank" rel="noopener">Zotero</a> or Google Docs “Explore” can auto-format references—still check capitalization and DOI/URL.</li>
+      </ul>
+      <p><b>APA in-text:</b> (Surname, Year).  <b>APA reference (journal):</b></p>
+      <pre>Author, A. A. (Year). Title of article. <i>Journal Name</i>, 12(3), 45–60. https://doi.org/xx.xxxx/xxxxx</pre>
+      <p><b>Website (APA):</b></p>
+      <pre>Organisation. (Year, Month Day). Page title. Site Name. URL</pre>
+    </div>
+
+    <div class="card">
+      <h2>EE structure (suggested)</h2>
+      <ul>
+        <li>Title page • Abstract (if your school asks) • Contents</li>
+        <li><b>Introduction</b> (context + RQ) • <b>Method</b> (data + tools) • <b>Analysis</b> (tables/graphs)</li>
+        <li><b>Discussion</b> (limitations, alternatives) • <b>Conclusion</b> (answer the RQ)</li>
+        <li>References • Appendices (survey, raw tables)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>IA structure (quick)</h2>
+      <ul>
+        <li><b>Econ IA</b>: Article summary → diagrams → analysis with concepts → evaluation → references.</li>
+        <li><b>BM IA/HL</b>: Research question → tools/frameworks (e.g., SWOT, investment appraisal) → findings → conclusion & recommendation → bibliography.</li>
+      </ul>
+      <a class="btn" href="./bootcamp.html">See Boot Camp curriculum</a>
     </div>
   </div>
 
   <div class="card">
-    <h2>In-text citations</h2>
-    <ul>
-      <li><b>APA:</b> (Author, Year) or Author (Year)</li>
-      <li><b>MLA:</b> (Author Page) or Author writes… (Page)</li>
-      <li>Quote sparingly; paraphrase with citation; link every claim to a source.</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h2>EE/IA structure templates</h2>
-    <ul>
-      <li><b>EE (4,000 words):</b> Title • Abstract (if required by your school) • Contents • Introduction (RQ, context) • Method • Results • Analysis • Discussion • Conclusion • References • Appendices</li>
-      <li><b>IA (subject-specific):</b> Research question • Method • Findings • Analysis • Evaluation/Limitations • Conclusion • References</li>
-    </ul>
-    <p><a class="btn" href="./enroll.html">Join the Boot Camp</a></p>
+    <h2>Spreadsheet starter</h2>
+    <p>Use one sheet for raw data, one for cleaned data, one for charts. Always keep units and sources in the header row.</p>
+    <pre>Variable, Unit, Source, Year, Value
+CPI, index (2015=100), MOSPI, 2020, 154.3</pre>
   </div>
 </div>
 </body></html>
