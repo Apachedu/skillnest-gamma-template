@@ -1,8 +1,14 @@
-<!doctype html><html><head>
+<!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SkillNestEdu — IB EE/IA Boot Camp & CaseLab</title>
 <link rel="icon" href="./assets/logo-skillnest.png">
 <meta name="description" content="One-week IB EE/IA Boot Camp that takes students from idea to analysis with IB-aligned methods. Teacher-led, parent-tested. Early-bird pricing now.">
+<meta property="og:title" content="SkillNestEdu — IB EE/IA Boot Camp & CaseLab">
+<meta property="og:description" content="IB-aligned boot camp: research question → data → analysis → write-up. Teacher-led, parent-tested.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://apachedu.github.io/skillnest-gamma-template/">
+<meta property="og:image" content="https://apachedu.github.io/skillnest-gamma-template/assets/logo-skillnest.png">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 :root{--bg:#fafafa;--card:#fff;--b:#eee;--text:#111;--muted:#666;--brand:#0b5fff;--good:#15a34a}
 *{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:var(--bg);color:var(--text)}
@@ -24,10 +30,17 @@ h1{font-size:32px;margin:8px 0 6px 0}p{margin:0 0 12px 0;color:var(--muted)}
 .card{background:var(--card);border:1px solid var(--b);border-radius:16px;padding:18px}
 .kpis{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
 .kpis .k{background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:8px 12px;font-weight:700}
-.quote{font-style:italic}
+.trust{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.trust img{height:40px}
 .guarantee{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:12px;padding:12px}
 .footer-cta{text-align:center;margin:18px 0 32px 0}
 .wa{position:fixed;right:14px;bottom:14px;background:#25D366;color:#fff;padding:10px 14px;border-radius:999px;font-weight:800;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:16px}
+.modal .mcard{background:#fff;border-radius:16px;max-width:960px;width:100%;padding:10px}
+.modal img{width:100%;height:auto;border-radius:12px}
+.modal .close{display:inline-block;margin-top:8px;background:#111;color:#fff;padding:8px 12px;border-radius:999px;text-decoration:none;font-weight:800}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+input,textarea,select{width:100%;padding:10px;border:1px solid #ddd;border-radius:10px}
 </style>
 </head><body>
 
@@ -41,10 +54,16 @@ h1{font-size:32px;margin:8px 0 6px 0}p{margin:0 0 12px 0;color:var(--muted)}
   </div>
 
   <div class="card">
-    <span class="badge">New cohort • IB-aligned</span>
-    <span class="badge">Teacher-led • Parent-tested</span>
+    <div class="kpis" style="justify-content:space-between;align-items:center">
+      <div>
+        <span class="badge">New cohort • IB-aligned</span>
+        <span class="badge">Teacher-led • Parent-tested</span>
+      </div>
+      <div class="k" id="seatsBox">Seats left: <span id="seatsLeft">20</span></div>
+    </div>
+
     <h1>Crack your IB EE/IA. Learn like a researcher, deliver like a topper.</h1>
-    <p>One-week boot camp that takes students from idea → research question → data → analysis → write-up. Built by an educator and parent who has seen the crunch up close.</p>
+    <p>One-week boot camp that takes students from idea → research question → data → analysis → write-up.</p>
 
     <div class="kpis">
       <div class="k">Mapped to IB criteria</div>
@@ -53,7 +72,14 @@ h1{font-size:32px;margin:8px 0 6px 0}p{margin:0 0 12px 0;color:var(--muted)}
       <div class="k">Reschedule option (regular plan)</div>
     </div>
 
-    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:6px">
+    <div class="trust">
+      <img src="./assets/razorpay.svg" alt="Razorpay">
+      <img src="./assets/sheets.svg" alt="Google Sheets">
+      <img src="./assets/ib.svg" alt="IB Criteria">
+      <a class="btn alt" id="viewSample" href="#">See sample</a>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:10px">
       <div>
         <div><span id="price-was" class="was" style="display:none">₹ 1,999</span><span id="price-now" class="price">₹ 1,999</span></div>
         <div id="eb-badge" class="badge" style="display:none"></div>
@@ -75,7 +101,7 @@ h1{font-size:32px;margin:8px 0 6px 0}p{margin:0 0 12px 0;color:var(--muted)}
       <ul>
         <li>We start from the <b>IB rubric</b> and work backward — every task maps to marks.</li>
         <li><b>Worked examples</b> and <b>scaffolds</b> so students know what “good” looks like.</li>
-        <li>Daily <b>retrieval practice</b> so learning actually sticks under exam pressure.</li>
+        <li>Daily <b>retrieval practice</b> so learning sticks under exam pressure.</li>
       </ul>
     </div>
 
@@ -92,19 +118,35 @@ h1{font-size:32px;margin:8px 0 6px 0}p{margin:0 0 12px 0;color:var(--muted)}
     <div class="card">
       <h2>Risk-free for families</h2>
       <div class="guarantee">
-        Not a fit after the first session? Get <b>50% credit</b> toward any future cohort (tell us within 24h).  
+        Not a fit after the first session? Get <b>50% credit</b> toward a future cohort (tell us within 24h).  
         Can’t make your slot? <b>One free reschedule</b> on the Regular plan.
       </div>
       <p style="margin-top:10px"><a href="./refunds.html">Read the refund & cancellation policy</a></p>
     </div>
   </div>
 
-  <div class="card">
-    <h2>Parents & students</h2>
-    <p class="quote">“The methodical approach to narrowing the topic and building the question saved us weeks. The templates were gold.”</p>
-    <p><small>— Parent of IB DP2 student</small></p>
-    <p class="quote" style="margin-top:8px">“I finally understood how to use data without overcomplicating it. My IA outline actually makes sense now.”</p>
-    <p><small>— IB Economics student</small></p>
+  <div class="card" id="waitlist">
+    <h2>Not ready to pay? Join the waitlist</h2>
+    <form action="https://formsubmit.co/contact@skillnestedu.com" method="POST">
+      <input type="hidden" name="_subject" value="Waitlist: Boot Camp">
+      <input type="hidden" name="_captcha" value="false">
+      <div class="form-row">
+        <input name="Student name" placeholder="Student name" required>
+        <input type="email" name="Parent email" placeholder="Parent email" required>
+      </div>
+      <div class="form-row">
+        <input name="Phone/WhatsApp" placeholder="Phone/WhatsApp">
+        <select name="Cohort preference">
+          <option>Weekdays (Evening IST)</option>
+          <option>Weekends (IST)</option>
+        </select>
+      </div>
+      <textarea name="Notes" rows="3" placeholder="Anything we should know?"></textarea>
+      <div class="cta" style="margin-top:8px">
+        <button class="btn" type="submit">Join waitlist</button>
+        <a class="btn alt" href="./enroll.html">Go to Enroll</a>
+      </div>
+    </form>
   </div>
 
   <div class="footer-cta">
@@ -116,13 +158,24 @@ h1{font-size:32px;margin:8px 0 6px 0}p{margin:0 0 12px 0;color:var(--muted)}
 
 <a class="wa" href="https://wa.me/917060403023" target="_blank" rel="noopener">WhatsApp</a>
 
+<div class="modal" id="sampleModal">
+  <div class="mcard">
+    <img src="./assets/sample-ee.svg" alt="Sample EE/IA preview">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <small style="color:#666">Anonymized preview. We show a full page during the session.</small>
+      <a href="#" class="close" id="closeModal">Close</a>
+    </div>
+  </div>
+</div>
+
 <script>
-// Early-bird pricing & countdown
 const EB_DEADLINE_IST = "2025-08-28T23:59:59+05:30";
 const LINKS = {
   early:   { price:"₹ 1,599", pay:"https://rzp.io/rzp/ajHwvAiz" },
   regular: { price:"₹ 1,999", pay:"https://rzp.io/rzp/hWeiHeL"  }
 };
+const SEATS_LEFT = 20;
+document.getElementById('seatsLeft').textContent = SEATS_LEFT;
 function isEarly(){ return Date.now() < new Date(EB_DEADLINE_IST).getTime(); }
 (function(){
   const mode = (EB_DEADLINE_IST && isEarly()) ? "early" : "regular";
@@ -147,6 +200,10 @@ function isEarly(){ return Date.now() < new Date(EB_DEADLINE_IST).getTime(); }
     }
     tick(); setInterval(tick,1000);
   }
+  const modal=document.getElementById('sampleModal');
+  document.getElementById('viewSample').addEventListener('click',e=>{e.preventDefault();modal.style.display='flex';});
+  document.getElementById('closeModal').addEventListener('click',e=>{e.preventDefault();modal.style.display='none';});
+  modal.addEventListener('click',e=>{ if(e.target===modal) modal.style.display='none'; });
 })();
 </script>
 </body></html>

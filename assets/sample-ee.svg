@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560">
+  <rect width="900" height="560" rx="18" fill="#ffffff" stroke="#e5e7eb"/>
+  <rect x="40" y="40" width="820" height="60" rx="10" fill="#eef3ff" stroke="#dbe4ff"/>
+  <text x="60" y="78" font-family="system-ui,-apple-system,Segoe UI,Roboto" font-weight="800" font-size="22" fill="#111">Sample EE/IA Page (anonymized preview)</text>
+  <rect x="40" y="120" width="820" height="340" rx="10" fill="#f8fafc" stroke="#e5e7eb"/>
+  <text x="60" y="160" font-family="ui-monospace,Menlo,monospace" font-size="14" fill="#111">Introduction → Research Question → Method → Findings → Analysis → Conclusion</text>
+  <text x="60" y="200" font-family="ui-monospace,Menlo,monospace" font-size="13" fill="#374151">“To what extent … in [context]?”  (RQ example)</text>
+  <text x="60" y="230" font-family="ui-monospace,Menlo,monospace" font-size="13" fill="#374151">Fig. 1 Correlation: r = 0.62  |  n = 58  |  p &lt; 0.05</text>
+  <rect x="60" y="260" width="320" height="160" fill="#e5e7eb"/>
+  <rect x="420" y="260" width="420" height="160" fill="#e5e7eb"/>
+  <text x="60" y="460" font-family="ui-monospace,Menlo,monospace" font-size="13" fill="#374151">References: APA/MLA consistent; include DOIs/URLs</text>
+</svg>
