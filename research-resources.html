@@ -3,22 +3,54 @@
 <title>Research Resources — SkillNestEdu</title>
 <link rel="icon" href="./assets/logo-skillnest.png">
 <style>
-:root{--bg:#fafafa;--card:#fff;--b:#eee;--text:#111;--muted:#555;--brand:#0b5fff}
-*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:var(--bg);color:var(--text)}
-.wrap{max-width:980px;margin:0 auto;padding:0 16px}
-.card{background:var(--card);border:1px solid var(--b);border-radius:16px;padding:18px;margin:16px 0}
-h1{font-size:28px;margin:10px 0}h2{font-size:20px;margin:0 0 10px 0}
-p,li{color:var(--muted)}a{color:var(--brand);text-decoration:none}
-.k{background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
-pre{background:#0a0a0a;color:#e5e7eb;padding:12px;border-radius:10px;overflow:auto}
-.badge{display:inline-block;background:#eef3ff;border:1px solid #dbe4ff;color:#2643d6;border-radius:999px;padding:4px 10px;font-weight:700;font-size:12px}
-.btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;padding:8px 12px;border-radius:999px;font-weight:800}
-.pills{position:sticky;top:0;background:var(--bg);z-index:20;padding:8px 0 0 0}
-.pills a{display:inline-block;background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:6px 10px;margin:0 6px 8px 0;text-decoration:none;color:#111;font-weight:600}
-.copybtn{border:none;border-radius:8px;background:#1f2937;color:#fff;padding:6px 10px;font-weight:700;cursor:pointer}
-.flex{display:flex;gap:8px;align-items:center;justify-content:space-between}
-.small{font-size:12px;color:#777}
+:root{
+  --bg:#fafafa; --card:#ffffff; --b:#e9ecef; --text:#101214; --muted:#4b5563; --brand:#0b5fff;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  color:var(--text); background:var(--bg);
+  line-height:1.65; font-size:16px;
+}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.card{
+  background:var(--card); border:1px solid var(--b); border-radius:18px;
+  padding:24px; margin:22px 0; box-shadow:0 1px 0 rgba(16,24,40,.02);
+}
+h1{font-size:30px;letter-spacing:-.01em;margin:6px 0 10px}
+h2{font-size:22px;margin:0 0 12px}
+p{margin:8px 0 12px}
+ul{margin:10px 0 0 18px;padding:0}
+li{margin:8px 0}
+a{color:var(--brand);text-decoration:none}
+.k{
+  background:#f7f9fc;border:1px solid #e6ebf2;border-radius:12px;padding:12px; margin-top:10px
+}
+.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:16px}
+pre{
+  background:#0b1220;color:#e5e7eb;padding:14px;border-radius:12px;overflow:auto;
+  font-size:14px; line-height:1.55; margin:10px 0 0
+}
+.badge{display:inline-block;background:#eef3ff;border:1px solid #dbe4ff;color:#2643d6;
+  border-radius:999px;padding:5px 12px;font-weight:800;font-size:12px}
+.btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;
+  padding:10px 14px;border-radius:999px;font-weight:800}
+.pills{
+  position:sticky;top:0;background:linear-gradient(to bottom, rgba(250,250,250,1), rgba(250,250,250,.85));
+  backdrop-filter:saturate(1.1) blur(4px); z-index:20; padding:10px 0 8px; margin-top:6px
+}
+.pills a{
+  display:inline-block;background:#fff;border:1px solid #e6ebf2;border-radius:999px;
+  padding:8px 12px;margin:0 8px 8px 0;text-decoration:none;color:#111;font-weight:700
+}
+.copybtn{
+  border:none;border-radius:10px;background:#1f2937;color:#fff;padding:7px 11px;font-weight:800;cursor:pointer
+}
+.flex{display:flex;gap:10px;align-items:center;justify-content:space-between}
+.small{font-size:12.5px;color:#6b7280}
+.section-intro{font-size:17px;color:#374151}
+.spacer{height:6px}
 </style>
 </head><body>
 
@@ -26,10 +58,11 @@ pre{background:#0a0a0a;color:#e5e7eb;padding:12px;border-radius:10px;overflow:au
 <script>fetch("nav.html").then(r=>r.text()).then(h=>{document.getElementById("topnav").outerHTML=h});</script>
 
 <div class="wrap">
+
   <div class="card">
     <span class="badge">IB-aligned</span>
     <h1>Research Resources</h1>
-    <p>Find credible sources, log data properly, cite correctly, and structure your IB EE/IA.</p>
+    <p class="section-intro">Find credible sources, log data properly, cite correctly, and structure your IB EE/IA.</p>
     <div class="pills">
       <a href="#find">Find sources</a>
       <a href="#track">Track sources</a>
@@ -43,21 +76,22 @@ pre{background:#0a0a0a;color:#e5e7eb;padding:12px;border-radius:10px;overflow:au
   <div id="find" class="card">
     <h2>Find quality sources</h2>
     <ul>
-      <li><a href="https://scholar.google.com" target="_blank" rel="noopener">Google Scholar</a>: use quotes, year filters, filetype:pdf, and sort by date.</li>
+      <li><a href="https://scholar.google.com" target="_blank" rel="noopener">Google Scholar</a>: use quotes, year filters, <code>filetype:pdf</code>, sort by date.</li>
       <li>Official stats: <a href="https://data.worldbank.org" target="_blank" rel="noopener">World Bank</a>, <a href="https://stats.oecd.org" target="_blank" rel="noopener">OECD</a>, <a href="https://www.imf.org/en/Data" target="_blank" rel="noopener">IMF</a>, <a href="https://unstats.un.org" target="_blank" rel="noopener">UN</a>.</li>
       <li>Open journals: <a href="https://doaj.org" target="_blank" rel="noopener">DOAJ</a> lists peer-reviewed OA journals.</li>
-      <li>Evaluate: author credibility, publication, date, method, sample size, bias.</li>
+      <li>Evaluate quality: author, publication, date, method, sample size, possible bias.</li>
     </ul>
-    <div class="k small">Search pro tip: "carbon tax" India site:oecd.org 2018..2024 PDF  •  intitle:review</div>
+    <div class="k small">Search pro tip: <b>"carbon tax" India site:oecd.org 2018..2024 PDF</b> • <b>intitle:review</b></div>
   </div>
 
   <div id="track" class="card">
     <h2>Track sources as you go</h2>
     <ul>
-      <li>Create a sheet with columns: Author • Year • Title • Source/URL • Notes • How I’ll use it.</li>
-      <li>Capture the permalink or DOI, not just a Google search URL.</li>
+      <li>Sheet columns: <b>Author</b> • <b>Year</b> • <b>Title</b> • <b>Source/URL</b> • <b>Notes</b> • <b>How I’ll use it</b>.</li>
+      <li>Capture the <b>permalink or DOI</b>, not just Google’s results URL.</li>
       <li>Keep page numbers for quotes/paraphrases.</li>
     </ul>
+    <div class="spacer"></div>
     <a class="btn" href="./downloads/source-log.csv" download>Download source-log CSV</a>
   </div>
 
@@ -81,19 +115,20 @@ Website: Author/Org. "Title." <i>Site</i>, Day Month Year, URL</pre>
   <div id="intext" class="card">
     <h2>In-text citations</h2>
     <ul>
-      <li>APA: (Author, Year) or Author (Year)</li>
-      <li>MLA: (Author Page) or Author writes… (Page)</li>
-      <li>Quote sparingly; paraphrase with a citation; link every claim to a source.</li>
+      <li>APA: (Author, Year) or Author (Year).</li>
+      <li>MLA: (Author Page) or Author writes… (Page).</li>
+      <li>Paraphrase with a citation; quote sparingly; link every claim to a source.</li>
     </ul>
   </div>
 
   <div id="structure" class="card">
     <h2>EE/IA structure templates</h2>
     <ul>
-      <li><b>EE (≈4,000 words)</b>: Title • Abstract (if required) • Contents • Introduction (RQ, context) • Method • Results • Analysis • Discussion • Conclusion • References • Appendices</li>
-      <li><b>Econ IA</b>: Article summary → diagrams → analysis in context → evaluation → references</li>
-      <li><b>BM IA/HL</b>: Research question → tools/frameworks → findings → conclusion & recommendation → bibliography</li>
+      <li><b>EE (≈4,000 words)</b>: Title • Abstract (if required) • Contents • Introduction (RQ, context) • Method • Results • Analysis • Discussion • Conclusion • References • Appendices.</li>
+      <li><b>Econ IA</b>: Article summary → labelled diagrams → analysis in context → evaluation → references.</li>
+      <li><b>BM IA/HL</b>: Research question → tools/frameworks → findings → conclusion & recommendation → bibliography.</li>
     </ul>
+    <div class="spacer"></div>
     <a class="btn" href="./downloads/ee-ia-outline.txt" download>Download outline (TXT)</a>
   </div>
 
@@ -109,8 +144,8 @@ Website: Author/Org. "Title." <i>Site</i>, Day Month Year, URL</pre>
 <script>
 function copyFrom(id){
   const el=document.getElementById(id);
-  const range=document.createRange();range.selectNodeContents(el);
-  const sel=window.getSelection();sel.removeAllRanges();sel.addRange(range);
+  const sel=window.getSelection(); const r=document.createRange();
+  r.selectNodeContents(el); sel.removeAllRanges(); sel.addRange(r);
   try{document.execCommand('copy');}catch(e){}
   sel.removeAllRanges();
 }
