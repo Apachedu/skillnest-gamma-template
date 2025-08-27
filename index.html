@@ -1,43 +1,44 @@
 <!doctype html>
 <html lang="en">
-<style>
-  :root{--sn-ink:#111;--sn-bg:#f6f7fb;--sn-line:#e8e9ef;--sn-brand:#0b5fff}
-
-  .sn-nav{display:flex;gap:16px;align-items:center;max-width:980px;margin:18px auto;padding:0 16px}
-  .sn-logo{display:flex;align-items:center;gap:10px}
-  .sn-logo img{height:22px;width:auto;border-radius:4px}
-  .sn-nav a{color:var(--sn-ink);text-decoration:none;font-weight:600}
-  .sn-right{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
-  .sn-cta{background:var(--sn-brand);color:#fff;border-radius:999px;padding:8px 12px;font-weight:800}
-
-  .sn-footer{max-width:980px;margin:24px auto;padding:12px 16px;color:#6b7280;font-size:12px;border-top:1px solid var(--sn-line)}
-  .sn-footer .sn-links{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px}
-  .sn-footer a{color:#4b5563;text-decoration:none}
-</style>
-
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SkillNestEdu</title>
+  <style>
+    :root{--sn-ink:#111;--sn-bg:#f6f7fb;--sn-line:#e8e9ef;--sn-brand:#0b5fff}
+    .sn-nav{display:flex;gap:16px;align-items:center;max-width:980px;margin:0 auto;padding:10px 16px}
+    .sn-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--sn-ink)}
+    .sn-logo img{height:22px;width:auto;border-radius:4px}
+    .sn-nav a{color:var(--sn-ink);text-decoration:none;font-weight:600}
+    .sn-right{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+    .sn-cta{background:var(--sn-brand);color:#fff;border-radius:999px;padding:8px 12px;font-weight:800}
+    .sn-footer{max-width:980px;margin:24px auto;padding:12px 16px;color:#6b7280;font-size:12px;border-top:1px solid var(--sn-line)}
+    .sn-footer .sn-links{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+    .sn-footer a{color:#4b5563;text-decoration:none}
+  </style>
 </head>
 <body>
-  <header style="position:sticky;top:0;background:#fff;border-bottom:1px solid #e8e9ef;z-index:100;">
-  <div style="max-width:980px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:16px;">
-    <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#111;">
-      <img src="assets/logo-skillnest.png" alt="SkillNestEdu" style="height:22px;width:auto;">
-      <span style="font-weight:800;">SkillNestEdu</span>
-    </a>
-    <nav style="margin-left:auto;display:flex;gap:16px;align-items:center;font-weight:600;">
-      <a href="index.html" style="color:#111;text-decoration:none;">Home</a>
-      <a href="enroll.html" style="color:#111;text-decoration:none;">Enroll</a>
-      <a href="pricing.html" style="color:#111;text-decoration:none;">Pricing</a>
-      <a href="bootcamp.html" style="color:#111;text-decoration:none;">Curriculum</a>
-      <a href="research-resources.html" style="color:#111;text-decoration:none;">Resources</a>
-      <a href="faq.html" style="color:#111;text-decoration:none;">FAQ</a>
-      <a href="enroll.html" style="background:#0b5fff;color:#fff;padding:8px 12px;border-radius:999px;text-decoration:none;">Join now</a>
-    </nav>
-  </div>
-</header>
+  <header style="position:sticky;top:0;background:#fff;border-bottom:1px solid var(--sn-line);z-index:100;">
+    <div class="sn-nav">
+      <a class="sn-logo" href="index.html">
+        <img src="assets/logo-skillnest.png" alt="SkillNestEdu">
+        <strong>SkillNestEdu</strong>
+      </a>
+      <nav class="sn-right">
+        <a href="index.html">Home</a>
+        <a href="enroll.html">Enroll</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="bootcamp.html">Curriculum</a>
+        <a href="research-resources.html">Resources</a>
+        <a href="faq.html">FAQ</a>
+        <a class="sn-cta" href="enroll.html">Join now</a>
+      </nav>
+    </div>
+  </header>
 
-  <div class="wrap">
+ <!-- Header / Nav end -->
+<div class="wrap">
 
-    <!-- Nav -->
     <div class="nav">
       <div class="logo">
         <img src="assets/logo-skillnest.png" alt="SkillNestEdu">
