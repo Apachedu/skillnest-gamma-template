@@ -17,17 +17,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Build dist
         run: |
           rm -rf dist
-          mkdir -p dist/apps
-          cp -r apps/* dist/apps/ 2>/dev/null || true
-          # copy all root-level HTML pages
-          find . -maxdepth 1 -name "*.html" -exec cp {} dist/ \;
-          # copy assets if present
-          if [ -d assets ]; then mkdir -p dist/assets && cp -r assets/* dist/assets/; fi
-
+          mkdir -p dist
+          cp -R *.html dist/ 2>/dev/null || true
+          cp -R assets dist/assets 2>/dev/null || true
+          cp -R apps dist/apps 2>/dev/null || true
+          cp -R downloads dist/downloads 2>/dev/null || true
+          cp -R batches dist/batches 2>/dev/null || true
+          if [ ! -f dist/index.html ]; then echo "<!doctype html><h1>SkillNestEdu</h1>" > dist/index.html; fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
