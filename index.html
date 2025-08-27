@@ -1,49 +1,152 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SkillNestEdu — IB Research Boot Camp & CaseLab</title>
+<title>SkillNestEdu — IB EE/IA Boot Camp & CaseLab</title>
 <link rel="icon" href="./assets/logo-skillnest.png">
+<meta name="description" content="One-week IB EE/IA Boot Camp that takes students from idea to analysis with IB-aligned methods. Teacher-led, parent-tested. Early-bird pricing now.">
 <style>
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#fafafa;color:#222}
-.hero{max-width:980px;margin:40px auto;padding:0 16px}
-.brand{display:flex;align-items:center;gap:10px;margin:0 0 14px 0}
-.brand img{width:48px;height:48px;border-radius:8px}
-.brand b{font-size:22px}
-.card{background:#fff;border:1px solid #eee;border-radius:16px;padding:18px;margin-bottom:14px}
-.btn{display:inline-block;background:#0b5fff;color:#fff;text-decoration:none;padding:10px 16px;border-radius:9999px;font-weight:800}
+:root{--bg:#fafafa;--card:#fff;--b:#eee;--text:#111;--muted:#666;--brand:#0b5fff;--good:#15a34a}
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:var(--bg);color:var(--text)}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+.hero{padding:28px 0 8px 0}
+.hero .card{background:var(--card);border:1px solid var(--b);border-radius:18px;padding:18px}
+h1{font-size:32px;margin:8px 0 6px 0}p{margin:0 0 12px 0;color:var(--muted)}
+.brand{display:flex;align-items:center;gap:10px;margin:0 0 8px 0}
+.brand img{width:42px;height:42px;border-radius:8px}
+.brand b{font-size:20px}
+.badge{display:inline-block;background:#eef3ff;color:#2643d6;border:1px solid #d8e3ff;border-radius:999px;padding:4px 10px;font-weight:700;font-size:12px;margin-right:6px}
+.cta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;padding:12px 18px;border-radius:999px;font-weight:800}
 .btn.alt{background:#111}
+.price{font-size:36px;font-weight:900}
+.was{color:#666;text-decoration:line-through;margin-right:6px;font-weight:700}
+.count{font-weight:800}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px}
-.badge{display:inline-block;background:#eef3ff;color:#2643d6;padding:4px 10px;border-radius:999px;font-weight:700;font-size:12px;margin-bottom:6px}
+.card{background:var(--card);border:1px solid var(--b);border-radius:16px;padding:18px}
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.kpis .k{background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:8px 12px;font-weight:700}
+.quote{font-style:italic}
+.guarantee{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:12px;padding:12px}
+.footer-cta{text-align:center;margin:18px 0 32px 0}
+.wa{position:fixed;right:14px;bottom:14px;background:#25D366;color:#fff;padding:10px 14px;border-radius:999px;font-weight:800;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.15)}
 </style>
 </head><body>
-<div class="hero">
+
+<div id="topnav"></div>
+<script>fetch("nav.html").then(r=>r.text()).then(h=>{document.getElementById("topnav").outerHTML=h});</script>
+
+<div class="wrap hero">
   <div class="brand">
     <img src="./assets/logo-skillnest.png" alt="SkillNestEdu logo">
     <b>SkillNest<span style="color:#0b5fff">Edu</span></b>
   </div>
 
   <div class="card">
-    <span class="badge">New</span>
-    <h1>Think like a researcher. Deliver like a topper.</h1>
-    <p>One-week IB <b>EE/IA Boot Camp</b> to go from idea to analysis, plus <b>CaseLab</b> simulator for real-world practice.</p>
-    <p>
-      <a class="btn" href="./enroll.html">Enroll in Boot Camp</a>
-      <a class="btn alt" href="./pricing.html" style="margin-left:8px">See Pricing</a>
-      <a class="btn" href="./bootcamp.html" style="margin-left:8px">Curriculum</a>
-      <a class="btn alt" href="./faq.html" style="margin-left:8px">FAQ</a>
-    </p>
-  </div>
+    <span class="badge">New cohort • IB-aligned</span>
+    <span class="badge">Teacher-led • Parent-tested</span>
+    <h1>Crack your IB EE/IA. Learn like a researcher, deliver like a topper.</h1>
+    <p>One-week boot camp that takes students from idea → research question → data → analysis → write-up. Built by an educator and parent who has seen the crunch up close.</p>
 
-  <div class="grid">
-    <div class="card">
-      <h2>Boot Camp</h2>
-      <p>From research question to data and write-up with templates, examples, and feedback.</p>
-      <p><a class="btn" href="./bootcamp.html">See Curriculum</a></p>
+    <div class="kpis">
+      <div class="k">Mapped to IB criteria</div>
+      <div class="k">Templates & worked examples</div>
+      <div class="k">30-day recording access</div>
+      <div class="k">Reschedule option (regular plan)</div>
     </div>
-    <div class="card">
-      <h2>CaseLab</h2>
-      <p>Interactive Economics case studies with instant, rubric-aligned feedback.</p>
-      <p><a class="btn" href="https://caselab.skillnestedu.com" target="_blank" rel="noopener">Try Demo</a></p>
+
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:6px">
+      <div>
+        <div><span id="price-was" class="was" style="display:none">₹ 1,999</span><span id="price-now" class="price">₹ 1,999</span></div>
+        <div id="eb-badge" class="badge" style="display:none"></div>
+        <div id="countdown" style="display:none;margin-top:2px"></div>
+      </div>
+      <div class="cta">
+        <a class="btn" href="./enroll.html">Enroll now</a>
+        <a class="btn alt" id="pay-now" href="#" target="_blank" rel="noopener">Pay now</a>
+        <a class="btn" href="./bootcamp.html">See curriculum</a>
+      </div>
     </div>
   </div>
 </div>
+
+<div class="wrap">
+  <div class="grid">
+    <div class="card">
+      <h2>Why this is different</h2>
+      <ul>
+        <li>We start from the <b>IB rubric</b> and work backward — every task maps to marks.</li>
+        <li><b>Worked examples</b> and <b>scaffolds</b> so students know what “good” looks like.</li>
+        <li>Daily <b>retrieval practice</b> so learning actually sticks under exam pressure.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>What you’ll leave with</h2>
+      <ul>
+        <li>A focused, testable <b>research question</b></li>
+        <li>A practical <b>data plan</b> (primary/secondary)</li>
+        <li>Ability to use <b>descriptive stats</b> & <b>correlation</b> in context</li>
+        <li>A structured <b>EE/IA outline</b> with citations started</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Risk-free for families</h2>
+      <div class="guarantee">
+        Not a fit after the first session? Get <b>50% credit</b> toward any future cohort (tell us within 24h).  
+        Can’t make your slot? <b>One free reschedule</b> on the Regular plan.
+      </div>
+      <p style="margin-top:10px"><a href="./refunds.html">Read the refund & cancellation policy</a></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Parents & students</h2>
+    <p class="quote">“The methodical approach to narrowing the topic and building the question saved us weeks. The templates were gold.”</p>
+    <p><small>— Parent of IB DP2 student</small></p>
+    <p class="quote" style="margin-top:8px">“I finally understood how to use data without overcomplicating it. My IA outline actually makes sense now.”</p>
+    <p><small>— IB Economics student</small></p>
+  </div>
+
+  <div class="footer-cta">
+    <a class="btn" href="./enroll.html">Enroll in Boot Camp</a>
+    <a class="btn alt" href="./pricing.html" style="margin-left:8px">See pricing</a>
+    <a class="btn" href="./research-resources.html" style="margin-left:8px">See research resources</a>
+  </div>
+</div>
+
+<a class="wa" href="https://wa.me/917060403023" target="_blank" rel="noopener">WhatsApp</a>
+
+<script>
+// Early-bird pricing & countdown
+const EB_DEADLINE_IST = "2025-08-28T23:59:59+05:30";
+const LINKS = {
+  early:   { price:"₹ 1,599", pay:"https://rzp.io/rzp/ajHwvAiz" },
+  regular: { price:"₹ 1,999", pay:"https://rzp.io/rzp/hWeiHeL"  }
+};
+function isEarly(){ return Date.now() < new Date(EB_DEADLINE_IST).getTime(); }
+(function(){
+  const mode = (EB_DEADLINE_IST && isEarly()) ? "early" : "regular";
+  const cfg = LINKS[mode];
+  const now = document.getElementById('price-now');
+  const was = document.getElementById('price-was');
+  const pay = document.getElementById('pay-now');
+  now.textContent = cfg.price; pay.href = cfg.pay;
+  if(mode==="early"){
+    was.style.display='inline';
+    const b = document.getElementById('eb-badge');
+    b.style.display='inline-block';
+    const d = new Date(EB_DEADLINE_IST);
+    b.textContent = "Early-bird ends " + d.toLocaleString(undefined,{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+    const box = document.getElementById('countdown');
+    function tick(){
+      const left = new Date(EB_DEADLINE_IST).getTime() - Date.now();
+      if(left<=0){ box.style.display='none'; return; }
+      const ds=Math.floor(left/86400000),hs=Math.floor((left%86400000)/3600000),
+            ms=Math.floor((left%3600000)/60000),ss=Math.floor((left%60000)/1000);
+      box.style.display='block'; box.innerHTML='<span class="count">⏳ '+ds+'d '+hs+'h '+ms+'m '+ss+'s</span> left';
+    }
+    tick(); setInterval(tick,1000);
+  }
+})();
+</script>
 </body></html>
