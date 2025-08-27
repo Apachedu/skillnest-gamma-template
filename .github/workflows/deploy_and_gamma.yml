@@ -22,7 +22,7 @@ jobs:
       - name: Generate Gamma decks
         env:
           GAMMA_API_KEY: ${{ secrets.GAMMA_API_KEY }}
-        run: node scripts/gamma_generate.js
+        run: node scripts/gamma_generate.mjs
 
       - name: Build dist
         run: |
