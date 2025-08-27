@@ -11,12 +11,18 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
 .card{background:#fff;border:1px solid #eee;border-radius:16px;padding:18px;margin-bottom:14px}
 h1,h2{margin:8px 0}
 .badge{display:inline-block;background:#eef3ff;color:#2643d6;padding:4px 10px;border-radius:999px;font-weight:700;font-size:12px;margin-bottom:6px}
-.btn{display:inline-block;background:#0b5fff;color:#fff;text-decoration:none;padding:10px 16px;border-radius:9999px;font-weight:800}
+.btn{display:inline-block;background:#0b5fff;color:#fff;text-decoration:none;padding:10px 16px;border-radius:999px;font-weight:800}
 .btn.alt{background:#111}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
 ul{padding-left:18px}
+.figure{text-align:center}
+.figure img{max-width:100%;height:auto;border-radius:14px;border:1px solid #e5e7eb;background:#fff}
+.figure small{color:#666}
 </style>
 </head><body>
+<div id="topnav"></div>
+<script>fetch("nav.html").then(r=>r.text()).then(h=>{document.getElementById("topnav").outerHTML=h});</script>
+
 <div class="wrap">
   <div class="brand">
     <img src="./assets/logo-skillnest.png" alt="SkillNestEdu logo">
@@ -26,7 +32,7 @@ ul{padding-left:18px}
   <div class="card">
     <span class="badge">Cohort-based • 1 week</span>
     <h1>IB EE/IA Boot Camp</h1>
-    <p>Hands-on program to take students from idea → research question → data plan → analysis → write-up. Designed with <b>backward design</b> (start from IB criteria), <b>worked examples</b>, and <b>retrieval practice</b> so learning sticks.</p>
+    <p>Hands-on program to take students from idea → research question → data plan → analysis → write-up. Designed for IB outcomes.</p>
     <p>
       <a class="btn" href="./enroll.html">Enroll / Join Waitlist</a>
       <a class="btn alt" href="./pricing.html" style="margin-left:8px">See Pricing</a>
@@ -39,10 +45,18 @@ ul{padding-left:18px}
       <li>A focused, testable <b>research question</b> (EE/IA-ready)</li>
       <li>A practical <b>data collection plan</b> (primary and/or secondary)</li>
       <li>Ability to compute and interpret <b>mean/median/mode</b>, basic <b>variability</b>, and <b>correlation</b></li>
-      <li>Clear understanding of <b>elasticity vs necessity</b> and real demand shifts (for Econ/BM examples)</li>
+      <li>Clear understanding of <b>elasticity vs necessity</b> and real demand shifts (Econ/BM examples)</li>
       <li>A structured <b>outline</b> for the EE/IA with citations and bibliography started</li>
     </ul>
     <p><small>Includes: downloadable practice PDF (keep forever), session recordings (30 days).</small></p>
+  </div>
+
+  <div class="card">
+    <h2>How we teach</h2>
+    <div class="figure">
+      <img src="./assets/id-visual.svg" alt="Instructional design visual: backward design, worked examples, retrieval practice, scaffolding">
+      <small>Built on proven learning science so students produce assessor-ready work.</small>
+    </div>
   </div>
 
   <div class="card">
@@ -51,7 +65,7 @@ ul{padding-left:18px}
       <div class="card">
         <h3>Day 1 — From Topic to Question</h3>
         <ul>
-          <li>Brainstorm → narrow → test for feasibility (literature & data check)</li>
+          <li>Brainstorm → narrow → feasibility check (literature & data)</li>
           <li>Hypothesis vs aim; operationalizing variables</li>
           <li>Mini-task: convert 3 broad ideas into testable questions</li>
         </ul>
@@ -60,8 +74,8 @@ ul{padding-left:18px}
         <h3>Day 2 — Data & Method</h3>
         <ul>
           <li>Primary vs secondary data; sampling basics</li>
-          <li>Designing a short survey/interview or picking official datasets</li>
-          <li>Mini-task: build a data plan + ethics checklist</li>
+          <li>Design a short survey/interview or pick official datasets</li>
+          <li>Mini-task: data plan + ethics checklist</li>
         </ul>
       </div>
       <div class="card">
@@ -69,7 +83,7 @@ ul{padding-left:18px}
         <ul>
           <li>Mean, median, mode; spreads; simple charts</li>
           <li>Hands-on in Sheets: compute and visualize</li>
-          <li>Mini-task: create a 6-chart insight board</li>
+          <li>Mini-task: 6-chart insight board</li>
         </ul>
       </div>
       <div class="card">
@@ -83,22 +97,12 @@ ul{padding-left:18px}
       <div class="card">
         <h3>Day 5 — Write-up & Citations</h3>
         <ul>
-          <li>Structure for EE/IA; using evidence to answer the question</li>
+          <li>Structure for EE/IA; answering the question with evidence</li>
           <li>Referencing styles; build bibliography</li>
           <li>Mini-task: 250-word draft conclusion + reference list</li>
         </ul>
       </div>
     </div>
-  </div>
-
-  <div class="card">
-    <h2>Instructional design inside</h2>
-    <ul>
-      <li><b>Backward design:</b> tasks map to IB EE/IA criteria</li>
-      <li><b>Worked examples:</b> sample EEs/IAs dissected step by step</li>
-      <li><b>Retrieval practice:</b> daily quick checks and reflection prompts</li>
-      <li><b>Scaffolding:</b> templates for RQ, data plan, graphs, conclusion</li>
-    </ul>
   </div>
 
   <div class="card">
