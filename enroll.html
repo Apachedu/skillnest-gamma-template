@@ -10,7 +10,7 @@ label{font-size:14px;font-weight:600}
 input,select,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;margin:6px 0 14px 0}
 .btn{display:inline-block;background:#0b5fff;color:#fff;padding:10px 16px;border-radius:9999px;text-decoration:none;font-weight:700}
 .btn.alt{background:#111}
-.row{display:flex;gap:10px;flex-wrap:wrap}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 10px 0}
 small{color:#666}
 .note{background:#f1f5ff;border:1px solid #d8e3ff;border-radius:10px;padding:10px;margin-top:12px}
 .qr{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:10px}
@@ -21,7 +21,6 @@ hr{border:0;border-top:1px solid #eee;margin:16px 0}
 <div class="wrap">
   <div class="card">
     <h1>Enroll / Join Waitlist</h1>
-    <p><a class="btn" href="./pricing.html">View pricing →</a></p>
     <p>Seats are limited. Fill this quick form and we’ll confirm within 24 hours.</p>
 
     <form id="enrollForm" action="https://formsubmit.co/contact@skillnestedu.com" method="POST" novalidate>
@@ -44,17 +43,19 @@ hr{border:0;border-top:1px solid #eee;margin:16px 0}
 
       <div class="row">
         <button class="btn alt" type="submit" id="submitOnly">Submit (no payment)</button>
-        <button class="btn" type="button" id="submitAndPay">Submit & Pay (Link)</button>
+        <button class="btn" type="button" id="submitAndPayCard">Submit & Pay (Card/Netbanking)</button>
+        <a class="btn" id="payUpiBtn" href="#" target="_blank" rel="noopener">Pay with UPI (Link)</a>
       </div>
 
-      <div class="note">
-        <strong>Instant UPI option:</strong> You can also scan this QR with any UPI app to pay now. After paying, keep the confirmation screen or reference ID. We’ll email a receipt.
+      <div id="upi" class="note">
+        <strong>UPI (recommended):</strong> You can also scan this QR with any UPI app to pay now. After paying, keep the confirmation screen or reference ID. We’ll email a receipt.
         <div class="qr">
           <img src="./assets/razorpay-qr.jpeg" alt="Razorpay UPI QR for SkillNestEdu">
           <p><b>How:</b> Open GPay / PhonePe / Paytm → Scan → Confirm amount → Pay. If you already submitted the form, no need to submit again. Otherwise, please submit this form as well so we have your contact details.</p>
         </div>
       </div>
     </form>
+
     <div class="note">
       <strong>Refund summary:</strong>
       <ul style="margin:8px 0 0 18px">
@@ -63,17 +64,21 @@ hr{border:0;border-top:1px solid #eee;margin:16px 0}
         <li>≤ 48 hours: no refund; one deferral within 6 months (₹500) or free seat transfer.</li>
         <li>After start: 0–1 session and notify in 24h → 50% credit; 2+ sessions → no refund/credit.</li>
       </ul>
+      <p style="margin:8px 0 0 0"><a href="./refunds.html">Read full policy →</a></p>
     </div>
 
-    <p class="note"><small>No payment is collected unless you click “Submit & Pay (Link)” or scan the QR. We confirm every submission by email.</small></p>
+    <p class="note"><small>No payment is collected unless you click a pay button or scan the QR. We confirm every submission by email.</small></p>
     <p><small>If the form is blocked on school networks, email us: contact@skillnestedu.com</small></p>
   </div>
 </div>
 
 <script>
-const PAY_LINK = "https://rzp.io/i/REPLACE_WITH_YOUR_LINK";
+const PAY_UPI_LINK = "https://rzp.io/i/UPI_BOOTCAMP_LINK";
+const PAY_CLASSIC_LINK = "https://rzp.io/i/CLASSIC_BOOTCAMP_LINK";
+
 function siteBase(){ return window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, "/"); }
 const THANKS_URL = siteBase() + "thanks.html";
+
 const form = document.getElementById('enrollForm');
 const nextField = document.getElementById('nextUrl');
 function setNext(url){ nextField.value = url; }
@@ -82,12 +87,23 @@ document.getElementById('submitOnly').addEventListener('click', function(){
   setNext(THANKS_URL);
 });
 
-document.getElementById('submitAndPay').addEventListener('click', function(){
+document.getElementById('submitAndPayCard').addEventListener('click', function(){
   if(!form.reportValidity()){ return; }
-  const hasPay = PAY_LINK && !/REPLACE_WITH_YOUR_LINK/.test(PAY_LINK);
-  setNext(hasPay ? PAY_LINK : THANKS_URL);
-  if(!hasPay){ alert("Payment link not set yet. QR Pay works now; this will just submit your details."); }
+  const hasLink = PAY_CLASSIC_LINK && !/CLASSIC_BOOTCAMP_LINK/.test(PAY_CLASSIC_LINK);
+  setNext(hasLink ? PAY_CLASSIC_LINK : THANKS_URL);
+  if(!hasLink){ alert("Card/Netbanking link not set yet. You can use the UPI QR for now."); }
   form.submit();
+});
+
+document.getElementById('payUpiBtn').addEventListener('click', function(e){
+  const hasUpi = PAY_UPI_LINK && !/UPI_BOOTCAMP_LINK/.test(PAY_UPI_LINK);
+  if(!hasUpi){
+    e.preventDefault();
+    document.getElementById('upi').scrollIntoView({behavior:'smooth'});
+    alert("UPI link not set yet. You can scan the UPI QR below.");
+  }else{
+    this.href = PAY_UPI_LINK;
+  }
 });
 </script>
 </body></html>
