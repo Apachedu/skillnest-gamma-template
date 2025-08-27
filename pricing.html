@@ -10,6 +10,7 @@ h1{margin:0 0 10px 0}p{margin:0 0 16px 0;color:var(--muted)}
 .card{background:var(--card);border:1px solid var(--b);border-radius:16px;padding:18px;display:flex;flex-direction:column}
 .badge{display:inline-block;background:#eef3ff;color:#2643d6;padding:4px 10px;border-radius:999px;font-weight:700;font-size:12px;margin-bottom:6px}
 .price{font-size:34px;font-weight:800;margin:6px 0}
+.was{color:#666;text-decoration:line-through;margin-right:6px;font-weight:700}
 ul{padding-left:18px;margin:8px 0 18px 0}li{margin:6px 0}
 .btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;padding:10px 16px;border-radius:999px;font-weight:800;text-align:center}
 .btn.alt{background:#111}
@@ -23,20 +24,22 @@ ul{padding-left:18px;margin:8px 0 18px 0}li{margin:6px 0}
   <p>Simple, student-friendly plans in INR. Payment via UPI, netbanking, or card.</p>
 
   <div class="grid">
-
     <div class="card">
-      <span class="badge">Boot Camp</span>
+      <span class="badge" id="bc-badge" style="display:none"></span>
       <h3>IB EE/IA Boot Camp Seat</h3>
-      <div class="price">₹ 1,999</div>
+      <div class="price"><span id="bc-was" class="was" style="display:none">₹ 1,999</span><span id="bc-now">₹ 1,999</span></div>
       <ul>
         <li>1-week intensive cohort</li>
-        <li>Research question → data → analysis → write-up</li>
-        <li>Templates, examples, and recorded access</li>
+        <li>Research → data → analysis → write-up</li>
+        <li><b>Downloadable practice PDF — lifetime access</b></li>
+        <li><b>Recording access — 30 days</b></li>
+        <li><b>One free reschedule (Regular plan only)</b></li>
       </ul>
       <div class="pair">
-        <a class="btn" href="https://rzp.io/i/BOOTCAMP_UPI_LINK" target="_blank" rel="noopener">Pay with UPI</a>
-        <a class="btn alt" href="https://rzp.io/i/BOOTCAMP_CLASSIC_LINK" target="_blank" rel="noopener">Pay with Card/Netbanking</a>
+        <a class="btn" id="bc-upi"   href="#" target="_blank" rel="noopener">Pay with UPI</a>
+        <a class="btn alt" id="bc-card" href="#" target="_blank" rel="noopener">Pay with Card/Netbanking</a>
       </div>
+      <p style="margin-top:8px;color:#666"><small>Early-bird excludes reschedule; all Boot Camp purchases include PDF and 30-day recording access.</small></p>
     </div>
 
     <div class="card">
@@ -68,7 +71,6 @@ ul{padding-left:18px;margin:8px 0 18px 0}li{margin:6px 0}
         <a class="btn alt" href="https://rzp.io/i/CASELAB_PREMIUM_CLASSIC_LINK" target="_blank" rel="noopener">Pay with Card/Netbanking</a>
       </div>
     </div>
-
   </div>
 
   <div class="note">
@@ -80,4 +82,30 @@ ul{padding-left:18px;margin:8px 0 18px 0}li{margin:6px 0}
     <a class="btn" style="margin-left:8px" href="https://caselab.skillnestedu.com" target="_blank" rel="noopener">Try CaseLab demo</a></p>
   </div>
 </div>
+
+<script>
+const EB_DEADLINE_IST = "2025-08-28T23:59:59+05:30";
+const BOOTCAMP = {
+  early:   { price:"₹ 1,599", upi:"https://rzp.io/rzp/ajHwvAiz", classic:"https://rzp.io/rzp/ajHwvAiz" },
+  regular: { price:"₹ 1,999", upi:"https://rzp.io/rzp/hWeiHeL",  classic:"https://rzp.io/rzp/hWeiHeL"  }
+};
+function isEarly(){ return Date.now() < new Date(EB_DEADLINE_IST).getTime(); }
+(function(){
+  const mode = (EB_DEADLINE_IST && isEarly()) ? "early" : "regular";
+  const cfg = BOOTCAMP[mode];
+  const was = document.getElementById('bc-was');
+  const now = document.getElementById('bc-now');
+  const upi = document.getElementById('bc-upi');
+  const card= document.getElementById('bc-card');
+  now.textContent = cfg.price;
+  upi.href = cfg.upi; card.href = cfg.classic;
+  if(mode==="early"){
+    was.style.display = 'inline';
+    const b = document.getElementById('bc-badge');
+    b.style.display='inline-block';
+    const d = new Date(EB_DEADLINE_IST);
+    b.textContent = "Early-bird ends " + d.toLocaleString(undefined,{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+  }
+})();
+</script>
 </body></html>

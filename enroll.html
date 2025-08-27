@@ -15,12 +15,14 @@ small{color:#666}
 .note{background:#f1f5ff;border:1px solid #d8e3ff;border-radius:10px;padding:10px;margin-top:12px}
 .qr{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:10px}
 .qr img{max-width:220px;height:auto;border-radius:10px;border:1px solid #e5e7eb;background:#fff}
-.qr p{max-width:520px;margin:0}
-hr{border:0;border-top:1px solid #eee;margin:16px 0}
-</style></head><body>
+.badge{display:inline-block;background:#fff1c2;border:1px solid #ffd26e;border-radius:10px;padding:8px 10px;margin:8px 0}
+</style>
+</head><body>
 <div class="wrap">
   <div class="card">
     <h1>Enroll / Join Waitlist</h1>
+    <p><a class="btn" href="./pricing.html">View pricing →</a></p>
+    <p class="badge" id="eb-badge" style="display:none"></p>
     <p>Seats are limited. Fill this quick form and we’ll confirm within 24 hours.</p>
 
     <form id="enrollForm" action="https://formsubmit.co/contact@skillnestedu.com" method="POST" novalidate>
@@ -57,6 +59,16 @@ hr{border:0;border-top:1px solid #eee;margin:16px 0}
     </form>
 
     <div class="note">
+      <b>What you get:</b>
+      <ul style="margin:8px 0 0 18px">
+        <li>Downloadable practice PDF — lifetime access</li>
+        <li>Recording access — 30 days</li>
+        <li>One free reschedule (Regular plan only)</li>
+      </ul>
+      <p style="margin:8px 0 0 0;color:#666"><small>Early-bird excludes reschedule.</small></p>
+    </div>
+
+    <div class="note">
       <strong>Refund summary:</strong>
       <ul style="margin:8px 0 0 18px">
         <li>≥ 7 days before start: 100% refund (minus gateway fees) or 100% credit (6 months).</li>
@@ -73,36 +85,48 @@ hr{border:0;border-top:1px solid #eee;margin:16px 0}
 </div>
 
 <script>
-const PAY_UPI_LINK = "https://rzp.io/i/UPI_BOOTCAMP_LINK";
-const PAY_CLASSIC_LINK = "https://rzp.io/i/CLASSIC_BOOTCAMP_LINK";
-
+const EB_DEADLINE_IST = "2025-08-28T23:59:59+05:30";
+const LINKS = {
+  early:   { upi:"https://rzp.io/rzp/ajHwvAiz", classic:"https://rzp.io/rzp/ajHwvAiz" },
+  regular: { upi:"https://rzp.io/rzp/hWeiHeL",  classic:"https://rzp.io/rzp/hWeiHeL"  }
+};
 function siteBase(){ return window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, "/"); }
 const THANKS_URL = siteBase() + "thanks.html";
-
 const form = document.getElementById('enrollForm');
 const nextField = document.getElementById('nextUrl');
 function setNext(url){ nextField.value = url; }
+function isEarly(){ return Date.now() < new Date(EB_DEADLINE_IST).getTime(); }
+function currentLinks(){ return (EB_DEADLINE_IST && isEarly()) ? LINKS.early : LINKS.regular; }
+
+try{
+  if(EB_DEADLINE_IST && isEarly()){
+    const b = document.getElementById('eb-badge');
+    const d = new Date(EB_DEADLINE_IST);
+    b.style.display = 'inline-block';
+    b.textContent = "Early-bird ₹1,599 ends " + d.toLocaleString(undefined,{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+  }
+}catch(e){}
 
 document.getElementById('submitOnly').addEventListener('click', function(){
   setNext(THANKS_URL);
 });
 
 document.getElementById('submitAndPayCard').addEventListener('click', function(){
-  if(!form.reportValidity()){ return; }
-  const hasLink = PAY_CLASSIC_LINK && !/CLASSIC_BOOTCAMP_LINK/.test(PAY_CLASSIC_LINK);
-  setNext(hasLink ? PAY_CLASSIC_LINK : THANKS_URL);
-  if(!hasLink){ alert("Card/Netbanking link not set yet. You can use the UPI QR for now."); }
+  if(!form.reportValidity()) return;
+  const link = currentLinks().classic;
+  setNext(link || THANKS_URL);
+  if(!link) alert("Card/Netbanking link not set yet. You can use the UPI QR for now.");
   form.submit();
 });
 
 document.getElementById('payUpiBtn').addEventListener('click', function(e){
-  const hasUpi = PAY_UPI_LINK && !/UPI_BOOTCAMP_LINK/.test(PAY_UPI_LINK);
-  if(!hasUpi){
+  const link = currentLinks().upi;
+  if(!link){
     e.preventDefault();
     document.getElementById('upi').scrollIntoView({behavior:'smooth'});
     alert("UPI link not set yet. You can scan the UPI QR below.");
   }else{
-    this.href = PAY_UPI_LINK;
+    this.href = link;
   }
 });
 </script>
