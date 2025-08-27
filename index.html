@@ -1,48 +1,40 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>SkillNestEdu — IB EE/IA Boot Camp</title>
-  <link rel="icon" type="image/png" href="assets/logo-skillnest.png">
-  <style>
-    :root{
-      --bg:#f6f7fb; --card:#fff; --ink:#111; --muted:#666; --line:#e8e9ef;
-      --brand:#0b5fff; --chip:#eef2ff; --chip-line:#c7d2fe; --soft:#fafbff;
-      --radius:14px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-    a{color:var(--brand);text-decoration:none}
-    .wrap{max-width:980px;margin:28px auto;padding:0 16px}
-    .nav{display:flex;gap:16px;align-items:center;margin-bottom:18px}
-    .nav a{color:var(--ink);font-weight:600}
-    .logo{display:flex;align-items:center;gap:10px}
-    .logo img{height:22px;width:auto;border-radius:4px}
-    .hero{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
-    .eyebrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-    .chip{display:inline-flex;align-items:center;gap:6px;background:var(--chip);border:1px solid var(--chip-line);color:#28324a;
-          font-weight:700;font-size:12px;border-radius:999px;padding:6px 10px}
-    h1{font-size:32px;line-height:1.1;margin:6px 0 10px}
-    .sub{color:var(--muted);font-size:15px;margin-bottom:14px}
-    .cta{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 4px}
-    .btn{display:inline-block;background:var(--brand);color:#fff;font-weight:800;padding:10px 16px;border-radius:999px}
-    .btn.alt{background:#111}
-    .price{display:flex;align-items:center;gap:12px;margin-top:6px}
-    .price .now{font-weight:900;font-size:24px}
-    .price .old{color:#999;text-decoration:line-through}
-    .count{font-size:12px;color:#4a4a4a;background:#fff6cd;border:1px solid #ffe38a;border-radius:999px;padding:5px 10px}
-    .trust{margin:10px 0 0;color:#475569;font-size:13px}
-    .cards{display:grid;gap:14px;margin:18px 0}
-    @media (min-width:900px){ .cards{grid-template-columns:repeat(3,1fr)} }
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
-    .card h3{margin:4px 0 8px;font-size:18px}
-    .card li{margin:6px 0}
-    .cta-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:10px 0 22px}
-    .footer-note{color:#6b7280;font-size:12px;text-align:center;margin:12px 0}
-  </style>
+<style>
+  :root{--sn-ink:#111;--sn-bg:#f6f7fb;--sn-line:#e8e9ef;--sn-brand:#0b5fff}
+
+  .sn-nav{display:flex;gap:16px;align-items:center;max-width:980px;margin:18px auto;padding:0 16px}
+  .sn-logo{display:flex;align-items:center;gap:10px}
+  .sn-logo img{height:22px;width:auto;border-radius:4px}
+  .sn-nav a{color:var(--sn-ink);text-decoration:none;font-weight:600}
+  .sn-right{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .sn-cta{background:var(--sn-brand);color:#fff;border-radius:999px;padding:8px 12px;font-weight:800}
+
+  .sn-footer{max-width:980px;margin:24px auto;padding:12px 16px;color:#6b7280;font-size:12px;border-top:1px solid var(--sn-line)}
+  .sn-footer .sn-links{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  .sn-footer a{color:#4b5563;text-decoration:none}
+</style>
+
 </head>
 <body>
+  <header style="position:sticky;top:0;background:#fff;border-bottom:1px solid #e8e9ef;z-index:100;">
+  <div style="max-width:980px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:16px;">
+    <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#111;">
+      <img src="assets/logo-skillnest.png" alt="SkillNestEdu" style="height:22px;width:auto;">
+      <span style="font-weight:800;">SkillNestEdu</span>
+    </a>
+    <nav style="margin-left:auto;display:flex;gap:16px;align-items:center;font-weight:600;">
+      <a href="index.html" style="color:#111;text-decoration:none;">Home</a>
+      <a href="enroll.html" style="color:#111;text-decoration:none;">Enroll</a>
+      <a href="pricing.html" style="color:#111;text-decoration:none;">Pricing</a>
+      <a href="bootcamp.html" style="color:#111;text-decoration:none;">Curriculum</a>
+      <a href="research-resources.html" style="color:#111;text-decoration:none;">Resources</a>
+      <a href="faq.html" style="color:#111;text-decoration:none;">FAQ</a>
+      <a href="enroll.html" style="background:#0b5fff;color:#fff;padding:8px 12px;border-radius:999px;text-decoration:none;">Join now</a>
+    </nav>
+  </div>
+</header>
+
   <div class="wrap">
 
     <!-- Nav -->
@@ -124,5 +116,17 @@
 
     <div class="footer-note">Questions? WhatsApp us or email <a href="mailto:contact@skillnestedu.com">contact@skillnestedu.com</a>.</div>
   </div>
+  <footer style="margin-top:40px;border-top:1px solid #e8e9ef;background:#f8f9fe;">
+  <div style="max-width:980px;margin:0 auto;padding:18px 16px;display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <img src="assets/logo-skillnest.png" alt="SkillNestEdu" style="height:20px;width:auto;">
+      <strong>SkillNestEdu</strong>
+    </div>
+    <div style="font-size:14px;">
+      Questions? WhatsApp us or email <a href="mailto:contact@skillnestedu.com">contact@skillnestedu.com</a>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
