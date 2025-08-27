@@ -1,34 +1,49 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SkillNestEdu — IB Research & Quant Boot Camp</title>
+<title>SkillNestEdu — IB Research Boot Camp & CaseLab</title>
+<link rel="icon" href="./assets/logo-skillnest.png">
 <style>
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#f7f7fb;color:#222}
-.wrap{max-width:980px;margin:40px auto;padding:0 16px}
-.hero{background:linear-gradient(90deg,#4d96ff,#00cfd1);color:#fff;border-radius:16px;padding:28px 24px}
-.hero h1{margin:0 0 6px 0;font-size:28px}
-.hero p{margin:6px 0 16px 0}
-.btn{display:inline-block;background:#000;color:#fff;padding:10px 16px;border-radius:9999px;text-decoration:none;font-weight:700}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:22px 0}
-.card{background:#fff;border:1px solid #eee;border-radius:14px;padding:14px}
-.card h3{margin:8px 0 6px 0}
-a.link{color:#0b5fff;text-decoration:none;font-weight:700}
-small{color:#666}
-</style></head><body>
-<div class="wrap">
-  <div class="hero">
-    <h1>IB Research & Quant Boot Camp</h1>
-    <p>Get from topic → testable RQ → data plan → clean charts in 1 week. First-party tools. No logins. No trackers.</p>
-    <a class="btn" href="./enroll.html">Enroll or Join Waitlist</a>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#fafafa;color:#222}
+.hero{max-width:980px;margin:40px auto;padding:0 16px}
+.brand{display:flex;align-items:center;gap:10px;margin:0 0 14px 0}
+.brand img{width:48px;height:48px;border-radius:8px}
+.brand b{font-size:22px}
+.card{background:#fff;border:1px solid #eee;border-radius:16px;padding:18px;margin-bottom:14px}
+.btn{display:inline-block;background:#0b5fff;color:#fff;text-decoration:none;padding:10px 16px;border-radius:9999px;font-weight:800}
+.btn.alt{background:#111}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px}
+.badge{display:inline-block;background:#eef3ff;color:#2643d6;padding:4px 10px;border-radius:999px;font-weight:700;font-size:12px;margin-bottom:6px}
+</style>
+</head><body>
+<div class="hero">
+  <div class="brand">
+    <img src="./assets/logo-skillnest.png" alt="SkillNestEdu logo">
+    <b>SkillNest<span style="color:#0b5fff">Edu</span></b>
   </div>
 
-  <h2>Practice apps</h2>
+  <div class="card">
+    <span class="badge">New</span>
+    <h1>Think like a researcher. Deliver like a topper.</h1>
+    <p>One-week IB <b>EE/IA Boot Camp</b> to go from idea to analysis, plus <b>CaseLab</b> simulator for real-world practice.</p>
+    <p>
+      <a class="btn" href="./enroll.html">Enroll in Boot Camp</a>
+      <a class="btn alt" href="./pricing.html" style="margin-left:8px">See Pricing</a>
+      <a class="btn" href="./bootcamp.html" style="margin-left:8px">Curriculum</a>
+      <a class="btn alt" href="./faq.html" style="margin-left:8px">FAQ</a>
+    </p>
+  </div>
+
   <div class="grid">
-    <div class="card"><h3>RQ Builder</h3><p>Draft a focused research question and hypothesis/aim with FAST checks.</p><a class="link" href="./apps/rq-builder/">Open RQ Builder →</a></div>
-    <div class="card"><h3>Correlation Sandbox</h3><p>Visualize relationships, toggle trendline, and download clean charts.</p><a class="link" href="./apps/correlation/">Open Correlation →</a></div>
-    <div class="card"><h3>Demand–Supply</h3><p>See how taxes/subsidies shift P* and Q* for Econ IA intuition.</p><a class="link" href="./apps/demand-supply/">Open Demand–Supply →</a></div>
+    <div class="card">
+      <h2>Boot Camp</h2>
+      <p>From research question to data and write-up with templates, examples, and feedback.</p>
+      <p><a class="btn" href="./bootcamp.html">See Curriculum</a></p>
+    </div>
+    <div class="card">
+      <h2>CaseLab</h2>
+      <p>Interactive Economics case studies with instant, rubric-aligned feedback.</p>
+      <p><a class="btn" href="https://caselab.skillnestedu.com" target="_blank" rel="noopener">Try Demo</a></p>
+    </div>
   </div>
-
-  <p><small>© SkillNestEdu — Designed for IB EE/IA success. Hosted on GitHub Pages.</small></p>
 </div>
-  <div style="max-width:980px;margin:24px auto 40px auto;padding:0 16px;text-align:center"><a href="./pricing.html" style="display:inline-block;background:#0b5fff;color:#fff;text-decoration:none;padding:10px 16px;border-radius:9999px;font-weight:800">View Pricing</a></div>
 </body></html>
