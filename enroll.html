@@ -13,6 +13,10 @@ input,select,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radiu
 .row{display:flex;gap:10px;flex-wrap:wrap}
 small{color:#666}
 .note{background:#f1f5ff;border:1px solid #d8e3ff;border-radius:10px;padding:10px;margin-top:12px}
+.qr{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:10px}
+.qr img{max-width:220px;height:auto;border-radius:10px;border:1px solid #e5e7eb;background:#fff}
+.qr p{max-width:520px;margin:0}
+hr{border:0;border-top:1px solid #eee;margin:16px 0}
 </style></head><body>
 <div class="wrap">
   <div class="card">
@@ -35,52 +39,44 @@ small{color:#666}
       <select name="cohort" required>
         <option>Weekdays (Evening IST)</option><option>Weekends (Sat–Sun)</option>
       </select>
-      <label>Anything we should know?</label><textarea name="notes" rows="4"></textarea>
+      <label>Anything we should know?</label><textarea name="notes" rows="4" placeholder="If you pay now by UPI, you may paste the UPI reference ID here."></textarea>
 
       <div class="row">
         <button class="btn alt" type="submit" id="submitOnly">Submit (no payment)</button>
-        <button class="btn" type="button" id="submitAndPay">Submit & Pay</button>
+        <button class="btn" type="button" id="submitAndPay">Submit & Pay (Link)</button>
       </div>
+
       <div class="note">
-        <strong>Pay link:</strong> works with Razorpay or Stripe Payment Links. After you generate your link, paste it into this page’s script (see instructions below).
+        <strong>Instant UPI option:</strong> You can also scan this QR with any UPI app to pay now. After paying, keep the confirmation screen or reference ID. We’ll email a receipt.
+        <div class="qr">
+          <img src="./assets/razorpay-qr.jpeg" alt="Razorpay UPI QR for SkillNestEdu">
+          <p><b>How:</b> Open GPay / PhonePe / Paytm → Scan → Confirm amount → Pay. If you already submitted the form, no need to submit again. Otherwise, please submit this form as well so we have your contact details.</p>
+        </div>
       </div>
     </form>
 
-    <p class="note"><small>No payment is collected on this page unless you click “Submit & Pay”. We confirm every submission by email.</small></p>
+    <p class="note"><small>No payment is collected unless you click “Submit & Pay (Link)” or scan the QR. We confirm every submission by email.</small></p>
     <p><small>If the form is blocked on school networks, email us: contact@skillnestedu.com</small></p>
   </div>
 </div>
 
 <script>
-/* ====== Configure ONE payment link below (replace the placeholder) ====== */
-// Razorpay Payment Link example: https://rzp.io/i/abc123xyz
-// Stripe Payment Link example:   https://buy.stripe.com/abc123xyz
 const PAY_LINK = "https://rzp.io/i/REPLACE_WITH_YOUR_LINK";
-/* ======================================================================= */
-
+function siteBase(){ return window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, "/"); }
+const THANKS_URL = siteBase() + "thanks.html";
 const form = document.getElementById('enrollForm');
 const nextField = document.getElementById('nextUrl');
-
-function siteBase(){
-  const base = window.location.origin + window.location.pathname.replace(/\\/[^\\/]*$/, "/");
-  return base;
-}
-const THANKS_URL = siteBase() + "thanks.html";
-
 function setNext(url){ nextField.value = url; }
 
-// Default: simple submit goes to thank-you page
 document.getElementById('submitOnly').addEventListener('click', function(){
   setNext(THANKS_URL);
 });
 
-// Submit + pay: send the form, then land on the pay link
 document.getElementById('submitAndPay').addEventListener('click', function(){
-  // Basic required checks using HTML5 validity
   if(!form.reportValidity()){ return; }
-  const hasPayLink = PAY_LINK && !/REPLACE_WITH_YOUR_LINK/.test(PAY_LINK);
-  setNext(hasPayLink ? PAY_LINK : THANKS_URL);
-  if(!hasPayLink){ alert("Payment link not set yet. Submitting your details only."); }
+  const hasPay = PAY_LINK && !/REPLACE_WITH_YOUR_LINK/.test(PAY_LINK);
+  setNext(hasPay ? PAY_LINK : THANKS_URL);
+  if(!hasPay){ alert("Payment link not set yet. QR Pay works now; this will just submit your details."); }
   form.submit();
 });
 </script>
