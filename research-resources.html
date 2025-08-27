@@ -13,7 +13,12 @@ p,li{color:var(--muted)}a{color:var(--brand);text-decoration:none}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
 pre{background:#0a0a0a;color:#e5e7eb;padding:12px;border-radius:10px;overflow:auto}
 .badge{display:inline-block;background:#eef3ff;border:1px solid #dbe4ff;color:#2643d6;border-radius:999px;padding:4px 10px;font-weight:700;font-size:12px}
-.btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;padding:10px 14px;border-radius:999px;font-weight:800}
+.btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;padding:8px 12px;border-radius:999px;font-weight:800}
+.pills{position:sticky;top:0;background:var(--bg);z-index:20;padding:8px 0 0 0}
+.pills a{display:inline-block;background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:6px 10px;margin:0 6px 8px 0;text-decoration:none;color:#111;font-weight:600}
+.copybtn{border:none;border-radius:8px;background:#1f2937;color:#fff;padding:6px 10px;font-weight:700;cursor:pointer}
+.flex{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.small{font-size:12px;color:#777}
 </style>
 </head><body>
 
@@ -24,80 +29,90 @@ pre{background:#0a0a0a;color:#e5e7eb;padding:12px;border-radius:10px;overflow:au
   <div class="card">
     <span class="badge">IB-aligned</span>
     <h1>Research Resources</h1>
-    <p>Find credible sources, collect data, cite correctly, and structure your IB EE/IA.</p>
+    <p>Find credible sources, log data properly, cite correctly, and structure your IB EE/IA.</p>
+    <div class="pills">
+      <a href="#find">Find sources</a>
+      <a href="#track">Track sources</a>
+      <a href="#styles">Referencing styles</a>
+      <a href="#intext">In-text citations</a>
+      <a href="#structure">EE/IA formats</a>
+      <a href="#downloads">Downloads</a>
+    </div>
   </div>
 
-  <div class="grid">
-    <div class="card">
-      <h2>Find papers & reviews</h2>
-      <ul>
-        <li><a href="https://scholar.google.com" target="_blank" rel="noopener">Google Scholar</a> — broad academic search; use quotes and year filters.</li>
-        <li><a href="https://www.jstor.org" target="_blank" rel="noopener">JSTOR</a> and <a href="https://www.doaj.org" target="_blank" rel="noopener">DOAJ</a> — journals incl. open access.</li>
-        <li><a href="https://ideas.repec.org" target="_blank" rel="noopener">RePEc/IDEAS</a> — economics working papers.</li>
-        <li><a href="https://papers.ssrn.com" target="_blank" rel="noopener">SSRN</a> — management/finance preprints.</li>
-      </ul>
+  <div id="find" class="card">
+    <h2>Find quality sources</h2>
+    <ul>
+      <li><a href="https://scholar.google.com" target="_blank" rel="noopener">Google Scholar</a>: use quotes, year filters, filetype:pdf, and sort by date.</li>
+      <li>Official stats: <a href="https://data.worldbank.org" target="_blank" rel="noopener">World Bank</a>, <a href="https://stats.oecd.org" target="_blank" rel="noopener">OECD</a>, <a href="https://www.imf.org/en/Data" target="_blank" rel="noopener">IMF</a>, <a href="https://unstats.un.org" target="_blank" rel="noopener">UN</a>.</li>
+      <li>Open journals: <a href="https://doaj.org" target="_blank" rel="noopener">DOAJ</a> lists peer-reviewed OA journals.</li>
+      <li>Evaluate: author credibility, publication, date, method, sample size, bias.</li>
+    </ul>
+    <div class="k small">Search pro tip: "carbon tax" India site:oecd.org 2018..2024 PDF  •  intitle:review</div>
+  </div>
+
+  <div id="track" class="card">
+    <h2>Track sources as you go</h2>
+    <ul>
+      <li>Create a sheet with columns: Author • Year • Title • Source/URL • Notes • How I’ll use it.</li>
+      <li>Capture the permalink or DOI, not just a Google search URL.</li>
+      <li>Keep page numbers for quotes/paraphrases.</li>
+    </ul>
+    <a class="btn" href="./downloads/source-log.csv" download>Download source-log CSV</a>
+  </div>
+
+  <div id="styles" class="card">
+    <h2>Referencing styles (IB rule)</h2>
+    <p>IB accepts any recognized style (APA, MLA, Chicago) if used consistently.</p>
+    <div class="grid">
       <div class="k">
-        Tip: search like <b>"carbon tax" India site:oecd.org 2018..2024 PDF</b> or use <b>intitle:review</b> for survey articles.
+        <div class="flex"><strong>APA (7th) quick examples</strong><button class="copybtn" onclick="copyFrom('apaex')">Copy</button></div>
+        <pre id="apaex">Article: Author, A. A. (Year). Title. <i>Journal Name</i>, volume(issue), pages. https://doi.org/xx.xxxx/xxxxx
+Website: Author/Org. (Year, Month Day). Title. <i>Site</i>. URL</pre>
+      </div>
+      <div class="k">
+        <div class="flex"><strong>MLA (9th) quick examples</strong><button class="copybtn" onclick="copyFrom('mlaex')">Copy</button></div>
+        <pre id="mlaex">Article: Author Last, First. "Title." <i>Journal</i> vol., no., Year, pp.–pp. DOI/URL
+Website: Author/Org. "Title." <i>Site</i>, Day Month Year, URL</pre>
       </div>
     </div>
-
-    <div class="card">
-      <h2>Official data (Economics/BM)</h2>
-      <ul>
-        <li><a href="https://data.worldbank.org" target="_blank" rel="noopener">World Bank Data</a>, <a href="https://stats.oecd.org" target="_blank" rel="noopener">OECD Stats</a>, <a href="https://www.imf.org/en/Data" target="_blank" rel="noopener">IMF</a>, <a href="https://unstats.un.org" target="_blank" rel="noopener">UN Data</a></li>
-        <li>India: <a href="https://www.mospi.gov.in" target="_blank" rel="noopener">MoSPI</a>, <a href="https://www.rbi.org.in/Scripts/Statistics.aspx" target="_blank" rel="noopener">RBI</a>, <a href="https://sebi.gov.in" target="_blank" rel="noopener">SEBI</a></li>
-        <li>Markets: <a href="https://www.nseindia.com" target="_blank" rel="noopener">NSE</a>, <a href="https://www.bseindia.com" target="_blank" rel="noopener">BSE</a></li>
-        <li>Consumer/tech: company annual reports, investor presentations, Statista (if school has access)</li>
-      </ul>
-      <div class="k">Always note: source, series name, units, frequency, and date downloaded.</div>
-    </div>
-
-    <div class="card">
-      <h2>Primary data (quick guide)</h2>
-      <ul>
-        <li>Surveys: 8–15 well-designed questions, pilot test with 3–5 people, avoid double-barrel items.</li>
-        <li>Sampling: describe who, where, how many, and how selected.</li>
-        <li>Interviews: 6–10 semi-structured questions; record permission and anonymise.</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>Citation & bibliography</h2>
-      <ul>
-        <li>Use one style consistently (APA or MLA recommended by many IB schools).</li>
-        <li><a href="https://www.zotero.org" target="_blank" rel="noopener">Zotero</a> or Google Docs “Explore” can auto-format references—still check capitalization and DOI/URL.</li>
-      </ul>
-      <p><b>APA in-text:</b> (Surname, Year).  <b>APA reference (journal):</b></p>
-      <pre>Author, A. A. (Year). Title of article. <i>Journal Name</i>, 12(3), 45–60. https://doi.org/xx.xxxx/xxxxx</pre>
-      <p><b>Website (APA):</b></p>
-      <pre>Organisation. (Year, Month Day). Page title. Site Name. URL</pre>
-    </div>
-
-    <div class="card">
-      <h2>EE structure (suggested)</h2>
-      <ul>
-        <li>Title page • Abstract (if your school asks) • Contents</li>
-        <li><b>Introduction</b> (context + RQ) • <b>Method</b> (data + tools) • <b>Analysis</b> (tables/graphs)</li>
-        <li><b>Discussion</b> (limitations, alternatives) • <b>Conclusion</b> (answer the RQ)</li>
-        <li>References • Appendices (survey, raw tables)</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>IA structure (quick)</h2>
-      <ul>
-        <li><b>Econ IA</b>: Article summary → diagrams → analysis with concepts → evaluation → references.</li>
-        <li><b>BM IA/HL</b>: Research question → tools/frameworks (e.g., SWOT, investment appraisal) → findings → conclusion & recommendation → bibliography.</li>
-      </ul>
-      <a class="btn" href="./bootcamp.html">See Boot Camp curriculum</a>
-    </div>
   </div>
 
-  <div class="card">
-    <h2>Spreadsheet starter</h2>
-    <p>Use one sheet for raw data, one for cleaned data, one for charts. Always keep units and sources in the header row.</p>
-    <pre>Variable, Unit, Source, Year, Value
-CPI, index (2015=100), MOSPI, 2020, 154.3</pre>
+  <div id="intext" class="card">
+    <h2>In-text citations</h2>
+    <ul>
+      <li>APA: (Author, Year) or Author (Year)</li>
+      <li>MLA: (Author Page) or Author writes… (Page)</li>
+      <li>Quote sparingly; paraphrase with a citation; link every claim to a source.</li>
+    </ul>
+  </div>
+
+  <div id="structure" class="card">
+    <h2>EE/IA structure templates</h2>
+    <ul>
+      <li><b>EE (≈4,000 words)</b>: Title • Abstract (if required) • Contents • Introduction (RQ, context) • Method • Results • Analysis • Discussion • Conclusion • References • Appendices</li>
+      <li><b>Econ IA</b>: Article summary → diagrams → analysis in context → evaluation → references</li>
+      <li><b>BM IA/HL</b>: Research question → tools/frameworks → findings → conclusion & recommendation → bibliography</li>
+    </ul>
+    <a class="btn" href="./downloads/ee-ia-outline.txt" download>Download outline (TXT)</a>
+  </div>
+
+  <div id="downloads" class="card">
+    <h2>Downloads</h2>
+    <ul>
+      <li><a href="./downloads/source-log.csv" download>Source-log template (CSV)</a></li>
+      <li><a href="./downloads/ee-ia-outline.txt" download>EE/IA outline (TXT)</a></li>
+    </ul>
   </div>
 </div>
+
+<script>
+function copyFrom(id){
+  const el=document.getElementById(id);
+  const range=document.createRange();range.selectNodeContents(el);
+  const sel=window.getSelection();sel.removeAllRanges();sel.addRange(range);
+  try{document.execCommand('copy');}catch(e){}
+  sel.removeAllRanges();
+}
+</script>
 </body></html>

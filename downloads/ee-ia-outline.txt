@@ -1,0 +1,18 @@
+IB EE (suggested structure)
+1. Title page
+2. Abstract (if your school asks)
+3. Contents
+4. Introduction (context + focused Research Question)
+5. Method (data sources, tools, assumptions, limitations)
+6. Analysis (tables, graphs, calculations)
+7. Discussion/Evaluation (what the evidence means, weaknesses, alternatives)
+8. Conclusion (answer the RQ directly)
+9. References (consistent style)
+10. Appendices (survey, raw tables, formulas)
+
+IB Econ IA (quick)
+1. Article summary (1–2 lines, with link)
+2. Relevant theory + labelled diagram(s)
+3. Analysis in context (use data/quotes)
+4. Evaluation (short-/long-run, stakeholders, priorities)
+5. References
