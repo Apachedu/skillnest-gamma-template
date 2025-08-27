@@ -1,0 +1,43 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Enroll — SkillNestEdu Boot Camp</title>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#fafafa;color:#222}
+.wrap{max-width:860px;margin:40px auto;padding:0 16px}
+.card{background:#fff;border:1px solid #eee;border-radius:14px;padding:18px}
+h1{margin-top:0}
+label{font-size:14px;font-weight:600}
+input,select,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;margin:6px 0 14px 0}
+.btn{display:inline-block;background:#0b5fff;color:#fff;padding:10px 16px;border-radius:9999px;text-decoration:none;font-weight:700}
+small{color:#666}
+</style></head><body>
+<div class="wrap">
+  <div class="card">
+    <h1>Enroll / Join Waitlist</h1>
+    <p>Seats are limited. Fill this quick form and we’ll confirm within 24 hours.</p>
+
+    <form action="https://formsubmit.co/contact@skillnestedu.com" method="POST">
+      <input type="hidden" name="_subject" value="Boot Camp Enrollment">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://apachedu.github.io/skillnest-gamma-template/thanks.html">
+
+      <label>Student name</label><input name="name" required>
+      <label>Parent email</label><input name="email" type="email" required>
+      <label>Whatsapp / phone</label><input name="phone" required>
+      <label>Subject</label>
+      <select name="subject" required>
+        <option>Economics</option><option>Business Management</option><option>Math AA/AI</option><option>Sciences</option><option>Other</option>
+      </select>
+      <label>Pick your cohort</label>
+      <select name="cohort" required>
+        <option>Weekdays (Evening IST)</option><option>Weekends (Sat–Sun)</option>
+      </select>
+      <label>Anything we should know?</label><textarea name="notes" rows="4"></textarea>
+      <button class="btn" type="submit">Submit</button>
+    </form>
+
+    <p><small>No payment is collected on this page. We confirm over email first.</small></p>
+    <p><small>If the form is blocked on school networks, email us: contact@skillnestedu.com</small></p>
+  </div>
+</div>
+</body></html>
