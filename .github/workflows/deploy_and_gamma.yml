@@ -8,28 +8,27 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Generate Gamma decks
-        env:
-          GAMMA_API_KEY: ${{ secrets.GAMMA_API_KEY }}
-        run: node scripts/gamma_generate.mjs
-
       - name: Build dist
         run: |
+          set -e
           rm -rf dist
-          mkdir -p dist/apps
-          cp -r apps/* dist/apps/ 2>/dev/null || true
-          if [ -f index.html ]; then cp index.html dist/index.html; else echo "<!doctype html><h1>SkillNestEdu</h1>" > dist/index.html; fi
+          mkdir -p dist
+          # copy ALL top-level html files (index.html, enroll.html, pricing.html, etc.)
+          find . -maxdepth 1 -type f -name '*.html' -print0 | xargs -0 -I{} cp -a {} dist/
+          # copy common folders if present
+          for d in assets apps downloads scripts slides batches; do
+            [ -d "$d" ] && cp -a "$d" dist/
+          done
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -42,5 +41,4 @@ jobs:
     environment:
       name: github-pages
     steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v4
