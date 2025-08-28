@@ -1,0 +1,80 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Day 1 — Topic → Research Question</title>
+<style>
+:root{--ink:#111;--bg:#f6f7fb;--line:#e8e9ef;--brand:#0b5fff}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#f6f7fb;color:var(--ink)}
+.wrap{max-width:980px;margin:24px auto;padding:0 16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line)}
+nav{max-width:980px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:16px}
+nav a{text-decoration:none;color:#111;font-weight:600}
+.brand{display:flex;align-items:center;gap:8px}
+.brand img{height:22px}
+.slide h1{margin:12px 0 8px 0}
+hr{border:0;border-top:1px dashed #dce; margin:24px 0}
+img{max-width:100%;height:auto;border-radius:10px;border:1px solid #e5e7eb;background:#fff}
+code, pre{background:#f3f4f6;border-radius:6px;padding:2px 6px}
+ul{margin:8px 0 12px 18px}
+blockquote{border-left:4px solid #e5e7eb;padding-left:10px;color:#555}
+.btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;padding:8px 12px;border-radius:999px;font-weight:800}
+.topbar{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:10px}
+</style></head><body>
+<header><nav>
+  <a class="brand" href="../../index.html"><img src="../../assets/logo-skillnest.png" alt="SkillNestEdu"><strong>SkillNestEdu</strong></a>
+  <span style="margin-left:auto"></span>
+  <a href="./index.html">All lessons</a>
+  <a href="../../enroll.html" class="btn">Enroll</a>
+</nav></header>
+
+<div class="wrap">
+  <div class="card">
+    <div class="topbar">
+      <h1 style="margin:0;">Day 1 — Topic → Research Question</h1>
+      <a class="btn" href="../../slides/Day1.md" target="_blank" rel="noopener">Open raw Markdown</a>
+    </div>
+    <div id="deck">Loading…</div>
+  </div>
+</div>
+
+<script>
+// tiny markdown -> HTML (headings/lists/images/links/hr/bold/italic)
+function mdToHtml(md){
+  md = md.replaceAll('](../assets/',' ](../../assets/'); // fix relative asset path
+  md = md.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  md = md.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,'<img src="$2" alt="$1">');
+  md = md.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+  md = md.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+  md = md.replace(/(^|[\s_(])\*([^*]+)\*([)\s_.!?,]|$)/g,'$1<em>$2</em>$3');
+  md = md.replace(/^###### (.*)$/gm,'<h6>$1</h6>');
+  md = md.replace(/^##### (.*)$/gm,'<h5>$1</h5>');
+  md = md.replace(/^#### (.*)$/gm,'<h4>$1</h4>');
+  md = md.replace(/^### (.*)$/gm,'<h3>$1</h3>');
+  md = md.replace(/^## (.*)$/gm,'<h2>$1</h2>');
+  md = md.replace(/^# (.*)$/gm,'<h1>$1</h1>');
+  md = md.replace(/^\s*---\s*$/gm,'<hr>');
+  md = md.replace(/^(?:- .*(\r?\n|$))+?/gm, block => {
+    const items = block.trim().split(/\r?\n/).map(line => line.replace(/^- /,'').trim());
+    return '<ul>' + items.map(i=>'<li>'+i+'</li>').join('') + '</ul>';
+  });
+  md = md.replace(/(^|\n)([^<\n][^\n]*)/g, (m, nl, text) => {
+    if (/^\s*$/.test(text)) return m;
+    if (/^\s*<\/?(h\d|ul|li|img|a|hr)/.test(text)) return nl+text;
+    return nl + '<p>' + text + '</p>';
+  });
+  return md;
+}
+
+(async function(){
+  const el = document.getElementById('deck');
+  try{
+    const res = await fetch('../../slides/Day1.md', {cache:'no-store'});
+    if(!res.ok) throw new Error('Cannot load slides/Day1.md');
+    const md = await res.text();
+    el.innerHTML = mdToHtml(md);
+  }catch(e){
+    el.innerHTML = '<p style="color:#b91c1c;">Failed to load deck. ' + e.message + '</p>';
+  }
+})();
+</script>
+</body></html>
