@@ -18,25 +18,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node 20
+      # Node 20 for the generator script (Node 20 has fetch built-in)
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
+      # ONE conditional step to run the Gamma generator
       - name: Generate Gamma decks from /slides (optional)
+        if: ${{ secrets.GAMMA_API_KEY != '' }}
         env:
           GAMMA_API_KEY: ${{ secrets.GAMMA_API_KEY }}
-        shell: bash
-        run: |
-          if [ -n "${GAMMA_API_KEY}" ]; then
-            echo "Gamma key present; generating decks…"
-            node scripts/gamma_generate.js
-          else
-            echo "No GAMMA_API_KEY set; skipping Gamma generation."
-          fi
+        run: node scripts/gamma_generate.js
 
+      # Build static site into dist/
       - name: Build dist
-        shell: bash
         run: |
           set -e
           rm -rf dist
