@@ -1,4 +1,5 @@
 name: Deploy static site + Gamma decks
+
 on:
   push:
     branches: [ "main" ]
@@ -18,31 +19,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Node 20 (fetch built-in) for the generator script
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
 
-      # Run Gamma generator ONLY if the secret exists (guarded inside bash)
-      - name: Generate Gamma decks from /slides (optional)
+      # Runs whether or not the secret exists.
+      # If secret is present, it tries Gamma; if rate-limited or absent, it still writes local lesson pages.
+      - name: Generate lessons (Gamma if available)
+        env:
+          GAMMA_API_KEY: ${{ secrets.GAMMA_API_KEY }}
+        shell: bash
         run: |
-          if [ -n "${{ secrets.GAMMA_API_KEY }}" ]; then
-            echo "Gamma key present; generating decks…"
-            GAMMA_API_KEY='${{ secrets.GAMMA_API_KEY }}' node scripts/gamma_generate.js
-          else
-            echo "No GAMMA_API_KEY set; skipping Gamma generation."
-          fi
+          node scripts/gamma_generate.js
 
-      # Build static site into dist/
       - name: Build dist
+        shell: bash
         run: |
           set -e
           rm -rf dist
           mkdir -p dist
-          # copy ALL top-level HTML files
+          # Copy ALL top-level HTML files
           find . -maxdepth 1 -type f -name '*.html' -print0 | xargs -0 -I{} cp -a {} dist/
-          # copy common folders if present
+          # Copy common folders if present
           for d in assets apps downloads scripts slides batches; do
             [ -d "$d" ] && cp -a "$d" dist/
           done
