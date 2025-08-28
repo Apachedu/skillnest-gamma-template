@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Day 1 — Presentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Reveal core + theme -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css" id="theme">
+  <style>
+    .reveal { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+    .reveal h1, .reveal h2, .reveal h3 { font-weight: 800; }
+    .brand {position:fixed;left:16px;bottom:12px;font-size:12px;color:#666}
+    .brand b{color:#0b5fff}
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!-- horizontal slide separator = ---  | vertical (stack) = -- -->
+      <section data-markdown
+               data-separator="^---$"
+               data-separator-vertical="^--$"
+               data-charset="utf-8"
+               data-src="../../../slides/Day1.md">
+      </section>
+    </div>
+  </div>
+  <div class="brand">SkillNest<b>Edu</b></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/markdown/markdown.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: true,
+      width: 1280, height: 720,
+      margin: 0.06,
+      plugins: [ RevealMarkdown ]
+    });
+  </script>
+</body>
+</html>
