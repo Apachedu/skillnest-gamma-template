@@ -1,52 +1,85 @@
-<!doctype html><html><head>
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Enroll — SkillNestEdu Boot Camp</title>
-  <link rel="icon" href="./assets/logo-skillnest.png">
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#fafafa;color:#222}
-    .wrap{max-width:860px;margin:40px auto;padding:0 16px}
-    .card{background:#fff;border:1px solid #eee;border-radius:14px;padding:18px}
-    h1{margin-top:0}
+    :root{--ink:#111;--bg:#fafafa;--line:#eee;--brand:#0b5fff}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:var(--bg);color:var(--ink)}
+    .wrap{max-width:860px;margin:28px auto;padding:0 16px}
+    .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #e8e9ef;z-index:100}
+    nav{max-width:980px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:16px}
+    nav a{text-decoration:none;color:#111;font-weight:600}
+    .spacer{margin-left:auto}
+    .brand{display:flex;align-items:center;gap:8px}
+    .brand img{height:22px;width:auto}
+    h1{margin:6px 0 8px 0}
     label{font-size:14px;font-weight:600}
     input,select,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;margin:6px 0 14px 0}
-    .btn{display:inline-block;background:#0b5fff;color:#fff;padding:10px 16px;border-radius:9999px;text-decoration:none;font-weight:700}
-    .btn.alt{background:#111}
     .row{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 10px 0}
+    .btn{display:inline-block;background:var(--brand);color:#fff;padding:10px 16px;border-radius:9999px;text-decoration:none;font-weight:800}
+    .btn.alt{background:#111}
     small{color:#666}
     .note{background:#f1f5ff;border:1px solid #d8e3ff;border-radius:10px;padding:10px;margin-top:12px}
     .qr{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:10px}
     .qr img{max-width:220px;height:auto;border-radius:10px;border:1px solid #e5e7eb;background:#fff}
-    .badge{display:inline-block;background:#fff1c2;border:1px solid #ffd26e;border-radius:10px;padding:8px 10px;margin:8px 0}
+    .badge{display:inline-block;background:#fff1c2;border:1px solid #ffd26e;border-radius:10px;padding:6px 10px;margin:8px 0;font-weight:700}
+    .disabled{opacity:.6;pointer-events:none}
   </style>
 </head>
-  <body>
+<body>
+
+<header>
+  <nav>
+    <a class="brand" href="index.html">
+      <img src="assets/logo-skillnest.png" alt="SkillNestEdu"/>
+      <strong>SkillNestEdu</strong>
+    </a>
+    <span class="spacer"></span>
+    <a href="index.html">Home</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="bootcamp.html">Curriculum</a>
+    <a class="btn" href="enroll.html">Join now</a>
+  </nav>
+</header>
+
 <div class="wrap">
   <div class="card">
     <h1>Enroll / Join Waitlist</h1>
+    <!-- Early-bird badge (script toggles this) -->
     <span id="eb-badge" class="badge" style="display:none;"></span>
+
     <p><a class="btn" href="./pricing.html">View pricing →</a></p>
-    <p class="badge" id="eb-badge" style="display:none"></p>
-    <p>Seats are limited. Fill this quick form and we’ll confirm within 24 hours.</p>
+    <p>Seats are limited. Fill this quick form and we’ll confirm by email.</p>
 
     <form id="enrollForm" action="https://formsubmit.co/contact@skillnestedu.com" method="POST" novalidate>
-      <input type="hidden" name="_subject" value="Boot Camp Enrollment">
+      <!-- FormSubmit config -->
       <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" id="nextUrl" name="_next" value="">
+      <input type="hidden" name="_next" id="nextUrl" value="thanks.html">
 
-      <label>Student name</label><input name="name" required>
-      <label>Parent email</label><input name="email" type="email" required>
-      <label>Whatsapp / phone</label><input name="phone" required>
-      <label>Subject</label>
-      <select name="subject" required>
-        <option>Economics</option><option>Business Management</option><option>Math AA/AI</option><option>Sciences</option><option>Other</option>
+      <label for="name">Full name</label>
+      <input id="name" name="name" type="text" required>
+
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required>
+
+      <label for="subject">IB subject (primary)</label>
+      <select id="subject" name="subject" required>
+        <option value="">Select…</option>
+        <option>Economics</option><option>Business Management</option>
+        <option>Biology</option><option>History</option>
+        <option>Mathematics</option><option>English/Literature</option>
+        <option>Other/Multiple</option>
       </select>
-      <label>Pick your cohort</label>
-      <select name="cohort" required>
-        <option>Weekdays (Evening IST)</option><option>Weekends (Sat–Sun)</option>
+
+      <label for="cohort">Cohort preference</label>
+      <select id="cohort" name="cohort" required>
+        <option value="">Select…</option>
+        <option>Upcoming Saturday cohort</option>
+        <option>Next available weekday cohort</option>
       </select>
-      <label>Anything we should know?</label><textarea name="notes" rows="4" placeholder="If you pay now by UPI, you may paste the UPI reference ID here."></textarea>
 
       <div class="row">
         <button class="btn alt" type="submit" id="submitOnly">Submit (no payment)</button>
@@ -55,31 +88,21 @@
       </div>
 
       <div id="upi" class="note">
-        <strong>UPI (recommended):</strong> You can also scan this QR with any UPI app to pay now. After paying, keep the confirmation screen or reference ID. We’ll email a receipt.
+        <strong>UPI (instant):</strong> Scan this QR with any UPI app. After paying, keep the confirmation or reference ID. You should still submit this form so we have your contact details.
         <div class="qr">
-          <img src="./assets/razorpay-qr.jpeg" alt="Razorpay UPI QR for SkillNestEdu">
-          <p><b>How:</b> Open GPay / PhonePe / Paytm → Scan → Confirm amount → Pay. If you already submitted the form, no need to submit again. Otherwise, please submit this form as well so we have your contact details.</p>
+          <img src="assets/razorpay-qr.jpeg" alt="Razorpay UPI QR for SkillNestEdu">
+          <p><b>How:</b> GPay / PhonePe / Paytm → Scan → Confirm amount → Pay.</p>
         </div>
       </div>
     </form>
 
     <div class="note">
-      <b>What you get:</b>
-      <ul style="margin:8px 0 0 18px">
-        <li>Downloadable practice PDF — lifetime access</li>
-        <li>Recording access — 30 days</li>
-        <li>One free reschedule (Regular plan only)</li>
-      </ul>
-      <p style="margin:8px 0 0 0;color:#666"><small>Early-bird excludes reschedule.</small></p>
-    </div>
-
-    <div class="note">
       <strong>Refund summary:</strong>
       <ul style="margin:8px 0 0 18px">
-        <li>≥ 7 days before start: 100% refund (minus gateway fees) or 100% credit (6 months).</li>
-        <li>3–6 days: 50% refund or 100% credit (6 months).</li>
-        <li>≤ 48 hours: no refund; one deferral within 6 months (₹500) or free seat transfer.</li>
-        <li>After start: 0–1 session and notify in 24h → 50% credit; 2+ sessions → no refund/credit.</li>
+        <li>≥ 7 days before start: full refund (−₹100 processing) or free transfer.</li>
+        <li>3–6 days: 70% refund or free transfer.</li>
+        <li>≤ 48 hours: no refund; one deferral in 6 months (₹500) or free seat transfer.</li>
+        <li>After start: 0–1 session & notify in 24h → 50% credit; 2+ sessions → no refund/credit.</li>
       </ul>
       <p style="margin:8px 0 0 0"><a href="./refunds.html">Read full policy →</a></p>
     </div>
@@ -89,6 +112,7 @@
   </div>
 </div>
 
+<!-- Hardened Early-Bird + payments wiring -->
 <script>
 (function(){
   const EB_DEADLINE_IST = "2025-08-28T23:59:59+05:30";
@@ -97,73 +121,60 @@
     regular: { upi:"https://rzp.io/rzp/hWeiHeL",  classic:"https://rzp.io/rzp/hWeiHeL"  }
   };
 
-  function isEarly(){
-    return EB_DEADLINE_IST && (Date.now() < new Date(EB_DEADLINE_IST).getTime());
-  }
-  function currentLinks(){
-    return (EB_DEADLINE_IST && isEarly()) ? LINKS.early : LINKS.regular;
-  }
-  function siteBase(){
-    return window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, "/");
-  }
-
+  function isEarly(){ return EB_DEADLINE_IST && (Date.now() < new Date(EB_DEADLINE_IST).getTime()); }
+  function currentLinks(){ return isEarly() ? LINKS.early : LINKS.regular; }
+  function siteBase(){ return window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, "/"); }
   const THANKS_URL = siteBase() + "thanks.html";
 
   // Early-bird badge (optional)
   (function(){
-    const badge = document.getElementById('eb-badge'); // only if you added this element
-    if (!badge) return;
-    if (isEarly()){
+    const b = document.getElementById('eb-badge');
+    if(!b) return;
+    if(isEarly()){
       const d = new Date(EB_DEADLINE_IST);
-      badge.style.display = 'inline-block';
-      // Change ₹1,599 to ₹1,999 if that’s your EB price
-      badge.textContent = "Early-bird ₹1,599 ends " + d.toLocaleString(undefined, {
-        day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'
-      });
+      b.style.display = 'inline-block';
+      b.textContent = "Early-bird ₹1,999 ends " + d.toLocaleString(undefined,{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
     } else {
-      badge.style.display = 'none';
+      b.style.display = 'none';
     }
   })();
 
-  // Form wiring (safe-guards)
-  const form      = document.getElementById('enrollForm');
+  // Form & buttons
+  const form = document.getElementById('enrollForm');
   const nextField = document.getElementById('nextUrl');
+  function setNext(url){ if(nextField) nextField.value = url; }
 
-  function setNext(url){
-    if (nextField) nextField.value = url;
+  const submitOnly = document.getElementById('submitOnly');
+  if(submitOnly){
+    submitOnly.addEventListener('click', function(){ setNext(THANKS_URL); });
   }
 
-  const btnSubmitOnly = document.getElementById('submitOnly');
-  if (btnSubmitOnly){
-    btnSubmitOnly.addEventListener('click', function(){
-      setNext(THANKS_URL);
+  const payCard = document.getElementById('submitAndPayCard');
+  if(payCard){
+    payCard.addEventListener('click', function(){
+      if(form && form.reportValidity && !form.reportValidity()) return;
+      const link = (currentLinks().classic || THANKS_URL);
+      setNext(link);
+      if(form) form.submit();
     });
   }
 
-  const btnCard = document.getElementById('submitAndPayCard');
-  if (btnCard){
-    btnCard.addEventListener('click', function(){
-      if (form && form.reportValidity && !form.reportValidity()) return;
-      const link = currentLinks().classic;
-      setNext(link || THANKS_URL);
-      if (!link) alert("Card/Netbanking link not set yet. You can use the UPI QR for now.");
-      if (form) form.submit();
-    });
-  }
-
-  const btnUpi = document.getElementById('payUpiBtn');
-  if (btnUpi){
-    btnUpi.addEventListener('click', function(e){
+  const payUpiBtn = document.getElementById('payUpiBtn');
+  if(payUpiBtn){
+    payUpiBtn.addEventListener('click', function(e){
       const link = currentLinks().upi;
-      if (!link){
+      if(!link){
         e.preventDefault();
-        const upiBlock = document.getElementById('upi');
-        if (upiBlock) upiBlock.scrollIntoView({behavior:'smooth'});
-        alert("UPI link not set yet. You can scan the UPI QR below.");
+        const upi = document.getElementById('upi');
+        if(upi) upi.scrollIntoView({behavior:'smooth'});
+        alert("UPI link not set yet. You can scan the on-page QR.");
       } else {
-        btnUpi.href = link; // set on first click
+        payUpiBtn.href = link;
       }
     });
   }
 })();
 </script>
+
+</body>
+</html>
