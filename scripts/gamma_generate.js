@@ -1,31 +1,115 @@
-/* Node 20 script: generate Gamma decks from slides/*.md */
+/* Node 20 script: generate Gamma decks from slides/*.md
+   - Creates per-lesson viewers in /apps/lessons/dayX.html (always)
+   - Tries to create Gamma decks (rate-limit friendly with backoff)
+   - Writes an /apps/lessons/index.html that links to local viewer + Gamma/PDF if available
+*/
 import fs from "fs/promises";
 import path from "path";
 import { setTimeout as sleep } from "timers/promises";
 
-const API_KEY = process.env.GAMMA_API_KEY;
-if (!API_KEY) {
-  console.error("Missing GAMMA_API_KEY");
-  process.exit(1);
-}
-
+const API_KEY = process.env.GAMMA_API_KEY || "";
 const ROOT = process.cwd();
 const slidesDir = path.join(ROOT, "slides");
-const outDir = path.join(ROOT, "apps", "lessons");
+const outDir   = path.join(ROOT, "apps", "lessons");
 await fs.mkdir(outDir, { recursive: true });
 
-function niceTitle(fn) {
-  return fn.replace(/^Day/,"Day ").replace(/\.md$/,"");
+// Generate at most N decks per run to avoid hitting 429 too fast.
+// You can raise this later.
+const MAX_DECKS_PER_RUN = 2;
+
+// ---------- helpers ----------
+function titleFromMd(md, fallback) {
+  const m = md.match(/^#\s+(.+?)\s*$/m);
+  return m ? m[1].trim() : fallback;
 }
-function slug(fn) {
-  return fn.replace(/\.md$/,"").toLowerCase();
+function fileStem(f) { return f.replace(/\.md$/i, ""); }
+function niceTitleFromFile(f) {
+  // "Day1.md" -> "Day 1" ; "Day1 — RQ.md" -> "Day 1 — RQ"
+  const stem = fileStem(f);
+  return stem.replace(/^Day(\d+)/, "Day $1");
 }
-function pickUrl(obj, keys) {
-  for (const k of keys) {
-    const v = k.split(".").reduce((o, p) => (o ? o[p] : undefined), obj);
-    if (v) return v;
+
+// Minimal viewer; feels slide-like and is readable immediately
+function renderLessonHtml(title, mdFile, mdText) {
+  const safeMd = mdText
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;"); // just show raw markdown nicely
+  return `<!doctype html><meta charset="utf-8">
+<title>${title}</title>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#fafafa;color:#111}
+.wrap{max-width:980px;margin:30px auto;padding:0 16px}
+.hero{background:#fff;border:1px solid #eee;border-radius:12px;padding:16px;margin-bottom:16px}
+.btn{display:inline-block;background:#0b5fff;color:#fff;padding:8px 12px;border-radius:999px;text-decoration:none;font-weight:800}
+pre{background:#0b1020;color:#cbe3ff;padding:14px;border-radius:10px;overflow:auto}
+small{color:#666}
+.topbar{display:flex;align-items:center;gap:12px;justify-content:space-between}
+</style>
+<div class="wrap">
+  <div class="topbar">
+    <strong>SkillNestEdu</strong>
+    <div>
+      <a class="btn" href="../lessons/">All lessons</a>
+      <a class="btn" href="../../${mdFile}" target="_blank" rel="noopener">Open raw Markdown</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>${title}</h1>
+    <p><small>Rendered from <code>/${mdFile}</code>. When Gamma decks are generated, you’ll see “Open deck / PDF” on the lessons index.</small></p>
+  </div>
+
+  <h3>Lesson outline (Markdown)</h3>
+  <pre>${safeMd}</pre>
+</div>`;
+}
+
+function renderIndexHtml(cards) {
+  return `<!doctype html><meta charset="utf-8">
+<title>Boot Camp Lessons — SkillNestEdu</title>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#fafafa;color:#111}
+.wrap{max-width:980px;margin:40px auto;padding:0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:#fff;border:1px solid #eee;border-radius:12px;padding:14px}
+h1{margin-top:0}
+a.btn{display:inline-block;background:#0b5fff;color:#fff;padding:8px 12px;border-radius:999px;text-decoration:none;font-weight:800;margin-right:8px}
+.badge{display:inline-block;border:1px solid #e5e7eb;border-radius:999px;padding:2px 8px;margin-left:6px;font-size:12px;color:#555}
+small{color:#666}
+</style>
+<div class="wrap">
+  <h1>Boot Camp Lessons</h1>
+  <p>Decks are generated via Gamma from your outlines in <code>/slides</code>. If a deck hit a rate-limit, you’ll still have the local lesson viewer; try the “Run workflow” button later to refresh Gamma links.</p>
+  <div class="grid">
+    ${cards.map(c => `
+      <div class="card">
+        <h3>${c.title}${c.status ? `<span class="badge">${c.status}</span>` : ``}</h3>
+        <p>
+          <a class="btn" href="${c.viewerHref}">Open lesson</a>
+          ${c.gammaUrl ? `<a class="btn" href="${c.gammaUrl}" target="_blank" rel="noopener">Open deck</a>` : ``}
+          ${c.pdfUrl   ? `<a class="btn" href="${c.pdfUrl}"   target="_blank" rel="noopener">PDF</a>`        : ``}
+        </p>
+        <small>Source: <code>/${c.mdPath}</code></small>
+      </div>`).join("")}
+  </div>
+</div>`;
+}
+
+// ---------- Gamma API with backoff ----------
+async function postJsonWithBackoff(url, body, headers) {
+  for (let attempt=0; attempt<6; attempt++) {
+    const res = await fetch(url, { method:"POST", headers, body: JSON.stringify(body) });
+    if (res.status === 429 || res.status >= 500) {
+      const retryAfter = Number(res.headers.get("retry-after")) || 0;
+      const waitSec = retryAfter || Math.min(60, 5 * 2 ** attempt) + Math.random();
+      console.log(`Rate limited (${res.status}). Waiting ~${waitSec.toFixed(1)}s then retrying…`);
+      await sleep(waitSec * 1000);
+      continue;
+    }
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
   }
-  return "";
+  throw new Error("Exceeded retries: " + url);
 }
 
 async function createGeneration(inputText, title) {
@@ -33,130 +117,91 @@ async function createGeneration(inputText, title) {
     inputText,
     textMode: "preserve",
     format: "presentation",
-    // themeName/cardSplit are optional; safe to keep:
     themeName: "Oasis",
     cardSplit: "inputTextBreaks",
     exportAs: "pdf",
     textOptions: { language: "en", amount: "medium" },
     imageOptions: { source: "placeholder" },
     sharingOptions: { workspaceAccess: "view", externalAccess: "view" },
-    additionalInstructions: `Title: ${title}. Keep headings concise; avoid rewriting user text.`,
+    additionalInstructions: `Title: ${title}. Keep headings concise; avoid rewriting user text.`
   };
-
-  const res = await fetch("https://public-api.gamma.app/v0.2/generations", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "X-API-Key": API_KEY },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) throw new Error("POST /generations failed: " + (await res.text()));
-  return res.json(); // { generationId }
+  const headers = { "Content-Type": "application/json", "X-API-KEY": API_KEY };
+  return postJsonWithBackoff("https://public-api.gamma.app/v0.2/generations", body, headers);
 }
 
 async function pollGeneration(id) {
-  for (let i = 0; i < 60; i++) {
+  for (let attempt=0; attempt<120; attempt++) {
     const r = await fetch(`https://public-api.gamma.app/v0.2/generations/${id}`, {
-      headers: { "X-API-Key": API_KEY },
+      headers: { "X-API-KEY": API_KEY }
     });
-    if (!r.ok) throw new Error(`GET /generations/${id} failed: ${await r.text()}`);
+    if (r.status === 429 || r.status >= 500) {
+      const retryAfter = Number(r.headers.get("retry-after")) || 0;
+      const waitSec = retryAfter || Math.min(60, 2 * 2 ** attempt) + Math.random();
+      console.log(`Poll limited (${r.status}). Waiting ~${waitSec.toFixed(1)}s…`);
+      await sleep(waitSec * 1000);
+      continue;
+    }
     const j = await r.json();
-    const s = (j.status || "").toLowerCase();
-    if (s === "completed" || s === "complete" || s === "succeeded" || j.result) return j;
-    if (s === "failed") throw new Error("Generation failed: " + JSON.stringify(j));
+    if (j.status === "completed" || j.status === "succeeded") return j;
+    if (j.status === "failed") throw new Error("Generation failed: " + JSON.stringify(j));
     await sleep(5000);
   }
   throw new Error("Timed out waiting for generation " + id);
 }
 
-function lessonHtml({ title, shareUrl, pdfUrl }) {
-  // Prefer Gamma share URL; fall back to PDF embed
-  const iframeSrc = shareUrl || pdfUrl;
-  const note = shareUrl ? "" : "<p style='color:#888'>Showing PDF preview because a share URL wasn’t available.</p>";
-  return `<!doctype html><meta charset="utf-8">
-<title>${title} — SkillNestEdu</title>
-<link rel="icon" href="/skillnest-gamma-template/assets/logo-skillnest.png">
-<style>
-html,body{height:100%;margin:0;background:#0b0b10}
-.top{position:fixed;inset:0 0 auto 0;background:#0b0b10;color:#fff;
-     font:600 14px/1.2 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-     padding:10px 14px;display:flex;gap:10px;align-items:center;}
-.top a{color:#fff;text-decoration:none;opacity:.85}
-.wrap{position:absolute;inset:44px 0 0 0}
-iframe{border:0;width:100%;height:100%;}
-</style>
-<div class="top">
-  <a href="/skillnest-gamma-template/apps/lessons/index.html">← All lessons</a>
-  <span style="opacity:.7">|</span>
-  <a href="/skillnest-gamma-template/enroll.html">Enroll</a>
-  ${shareUrl ? `<span style="opacity:.7">|</span><a href="${shareUrl}" target="_blank" rel="noopener">Open in Gamma</a>` : ""}
-  ${pdfUrl ? `<span style="opacity:.7">|</span><a href="${pdfUrl}" target="_blank" rel="noopener">PDF</a>` : ""}
-</div>
-<div class="wrap">
-  ${note}
-  <iframe src="${iframeSrc}" allow="clipboard-read; clipboard-write"></iframe>
-</div>`;
+// ---------- main ----------
+const allMd = (await fs.readdir(slidesDir))
+  .filter(f => f.toLowerCase().endsWith(".md"))
+  .sort();
+
+if (!allMd.length) {
+  console.log("No slides/*.md found; nothing to do.");
+  process.exit(0);
 }
 
-const files = (await fs.readdir(slidesDir)).filter(f => f.endsWith(".md")).sort();
 const cards = [];
+let started = 0;
 
-for (const f of files) {
-  try {
-    const p = path.join(slidesDir, f);
-    const txt = await fs.readFile(p, "utf8");
-    const title = niceTitle(f);
-    console.log("Generating:", f);
+for (const f of allMd) {
+  const p = path.join(slidesDir, f);
+  const md = await fs.readFile(p, "utf8");
+  const title = titleFromMd(md, niceTitleFromFile(f));
+  const stem  = fileStem(f).toLowerCase(); // e.g., day1
+  const viewer = `day-${stem}.html`;      // avoid collisions, consistent file name
+  // write per-lesson viewer (always available)
+  await fs.writeFile(path.join(outDir, viewer), renderLessonHtml(title, `slides/${f}`, md), "utf8");
 
-    const { generationId } = await createGeneration(txt, title);
-    const done = await pollGeneration(generationId);
+  // default card (no Gamma yet)
+  const card = { title, mdPath: `slides/${f}`, viewerHref: `./${viewer}`, gammaUrl: "", pdfUrl: "", status: "" };
 
-    // Try multiple shapes:
-    const shareUrl = pickUrl(done, [
-      "result.urls.share", "result.urls.web", "result.share_url", "result.gammaUrl"
-    ]);
-    const pdfUrl = pickUrl(done, [
-      "result.urls.pdf", "result.pdfUrl"
-    ]);
-
-    // Write a dedicated page per lesson
-    const fileSlug = slug(f);
-    await fs.writeFile(path.join(outDir, `${fileSlug}.html`),
-      lessonHtml({ title, shareUrl, pdfUrl }), "utf8");
-
-    cards.push({
-      title,
-      href: `/skillnest-gamma-template/apps/lessons/${fileSlug}.html`,
-      id: generationId,
-      shareUrl, pdfUrl
-    });
-  } catch (e) {
-    console.error("Failed for", f, e.message);
+  // try Gamma (only if key present and within MAX)
+  if (API_KEY && started < MAX_DECKS_PER_RUN) {
+    try {
+      started++;
+      console.log("Generating via Gamma:", f);
+      const { generationId } = await createGeneration(md, title);
+      const done = await pollGeneration(generationId);
+      card.gammaUrl = done?.result?.gammaUrl || "";
+      card.pdfUrl   = done?.result?.pdfUrl   || "";
+      card.status   = done?.status || "done";
+    } catch (e) {
+      console.log(`Gamma generation failed for ${f}: ${e.message}`);
+      card.status = "throttled";
+    }
+  } else if (!API_KEY) {
+    card.status = "local only";
+  } else {
+    card.status = "queued";
   }
+
+  cards.push(card);
 }
 
-// Index page
-const indexHtml = `<!doctype html><meta charset="utf-8">
-<title>Lessons — SkillNestEdu</title>
-<style>
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#fafafa;color:#111}
-.wrap{max-width:980px;margin:40px auto;padding:0 16px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.card{background:#fff;border:1px solid #eee;border-radius:12px;padding:14px}
-h1{margin-top:0}a.btn{display:inline-block;background:#0b5fff;color:#fff;padding:8px 12px;border-radius:999px;text-decoration:none;font-weight:800;margin-right:8px}
-small{color:#666}
-</style>
-<div class="wrap">
-  <h1>Boot Camp Lessons</h1>
-  <p>Decks are generated via Gamma from your outlines in <code>/slides</code>.</p>
-  <div class="grid">
-    ${cards.map(c => `
-      <div class="card">
-        <h3>${c.title}</h3>
-        <p><a class="btn" href="${c.href}">Open</a>
-           ${c.pdfUrl ? `<a class="btn" href="${c.pdfUrl}" target="_blank" rel="noopener">PDF</a>` : ``}
-        </p>
-        <small>ID: ${c.id}</small>
-      </div>`).join("")}
-  </div>
-</div>`;
-await fs.writeFile(path.join(outDir, "index.html"), indexHtml, "utf8");
+// write index
+await fs.writeFile(path.join(outDir, "index.html"), renderIndexHtml(cards), "utf8");
 console.log("Wrote apps/lessons/index.html and per-lesson pages");
+
+  
+    
+ 
+    
