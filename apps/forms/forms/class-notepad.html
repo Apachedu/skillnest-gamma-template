@@ -1,0 +1,136 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Class Notepad — SkillNestEdu</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{--brand:#0b5fff;--ink:#111;--line:#e5e7eb}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#fafafa;color:var(--ink)}
+  .wrap{max-width:900px;margin:28px auto;padding:0 16px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+  h1{margin:0 0 4px 0}
+  .sub{color:#555;margin:0 0 14px 0}
+  label{font-weight:700;font-size:14px}
+  input,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin:6px 0 14px 0;font-size:15px}
+  textarea{min-height:320px;line-height:1.5}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{background:var(--brand);color:#fff;border-radius:999px;padding:10px 14px;font-weight:800;text-decoration:none;border:0;cursor:pointer}
+  .btn.alt{background:#111}
+  .btn.ghost{background:#fff;color:#111;border:1px solid #ddd}
+  .hint{color:#6b7280;font-size:12px}
+  .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .badge{background:#f1f5ff;border:1px solid #d8e3ff;border-radius:999px;padding:6px 10px;font-size:12px}
+</style>
+
+<div class="wrap">
+  <div class="card">
+    <h1 id="title">Class Notepad</h1>
+    <p class="sub" id="subtitle">Type your answer below. Your text auto-saves on this device.</p>
+
+    <label>Instructor prompt (optional)</label>
+    <input id="prompt" placeholder="Paste the question / activity here">
+
+    <label>Your response</label>
+    <textarea id="response" placeholder="Start typing here…"></textarea>
+
+    <div class="bar">
+      <button class="btn" id="copyBtn">Copy</button>
+      <button class="btn alt" id="dlBtn">Download .txt</button>
+      <form id="mailForm" action="https://formsubmit.co/contact@skillnestedu.com" method="POST" style="display:inline">
+        <input type="hidden" name="_subject" id="subField" value="Class Notepad submission">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="box">
+        <input type="hidden" name="title" id="titleField">
+        <input type="hidden" name="prompt" id="promptField">
+        <input type="hidden" name="response" id="respField">
+        <button class="btn ghost" type="submit" id="sendBtn">Email to instructor</button>
+      </form>
+      <button class="btn ghost" id="clearBtn">Clear</button>
+      <span class="badge" id="savedBadge">Autosaved</span>
+      <span class="hint" id="countHint">0 characters</span>
+    </div>
+
+    <p class="hint" style="margin-top:10px">
+      Tip: You can prefill via URL — add <code>?title=Angle%20Drill&prompt=Write%20your%20one-line%20summary</code>
+    </p>
+
+    <p><a class="btn ghost" href="../lessons/" style="text-decoration:none">← Back to Lessons</a></p>
+  </div>
+</div>
+
+<script>
+(function(){
+  const qs = new URLSearchParams(location.search);
+  const titleEl = document.getElementById('title');
+  const subtitleEl = document.getElementById('subtitle');
+  const promptEl = document.getElementById('prompt');
+  const respEl = document.getElementById('response');
+  const savedBadge = document.getElementById('savedBadge');
+  const countHint = document.getElementById('countHint');
+
+  const title = qs.get('title') || 'Class Notepad';
+  const promptFromUrl = qs.get('prompt') || '';
+  titleEl.textContent = title;
+  document.title = title + ' — SkillNestEdu';
+  if(promptFromUrl) promptEl.value = promptFromUrl;
+
+  const keyBase = 'sn-pad/';
+  function key(){ return keyBase + title; }
+
+  // Load saved
+  try{
+    const saved = JSON.parse(localStorage.getItem(key()) || '{}');
+    if(saved.prompt) promptEl.value = saved.prompt;
+    if(saved.response) respEl.value = saved.response;
+  }catch(e){ /* ignore */ }
+
+  function save(){
+    const data = { prompt: promptEl.value, response: respEl.value, ts: Date.now() };
+    localStorage.setItem(key(), JSON.stringify(data));
+    savedBadge.textContent = 'Saved ' + new Date(data.ts).toLocaleTimeString();
+    countHint.textContent = (promptEl.value.length + respEl.value.length) + ' characters';
+  }
+
+  promptEl.addEventListener('input', save);
+  respEl.addEventListener('input', save);
+  save();
+
+  document.getElementById('copyBtn').addEventListener('click', async ()=>{
+    const txt = composeText();
+    try{ await navigator.clipboard.writeText(txt); alert('Copied to clipboard.'); }
+    catch(e){ alert('Copy failed — select and copy manually.'); }
+  });
+
+  document.getElementById('dlBtn').addEventListener('click', ()=>{
+    const a = document.createElement('a');
+    const blob = new Blob([composeText()], {type:'text/plain'});
+    a.href = URL.createObjectURL(blob);
+    a.download = (title.replace(/\s+/g,'_') || 'Class_Notepad') + '_' + new Date().toISOString().slice(0,19).replaceAll(':','-') + '.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  document.getElementById('clearBtn').addEventListener('click', ()=>{
+    if(!confirm('Clear the prompt and your response?')) return;
+    promptEl.value = ''; respEl.value = ''; save();
+  });
+
+  // Prepare email submit
+  const form = document.getElementById('mailForm');
+  form.addEventListener('submit', ()=>{
+    document.getElementById('subField').value = 'Class Notepad — ' + title;
+    document.getElementById('titleField').value = title;
+    document.getElementById('promptField').value = promptEl.value;
+    document.getElementById('respField').value = respEl.value;
+  });
+
+  function composeText(){
+    return [
+      'Title: ' + title,
+      'Prompt: ' + (promptEl.value || '(none)'),
+      '',
+      'Response:',
+      respEl.value || ''
+    ].join('\n');
+  }
+})();
+</script>
