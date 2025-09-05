@@ -1,45 +1,48 @@
-<!doctype html><html><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Pricing — SkillNestEdu</title>
-<link rel="icon" href="./assets/logo-skillnest.png">
+
 <style>
-:root{--bg:#fafafa;--card:#fff;--text:#111;--muted:#666;--b:#eaeaea;--brand:#0b5fff}
-*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:var(--bg);color:var(--text)}
+:root{--bg:#fafafa;--card:#fff;--text:#111;--muted:#666;--b:#eaeaea;--brand:#0b5fff;--pill:#eef2ff;--pillbd:#c7d2fe}
+*{box-sizing:border-box}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:var(--bg);color:var(--text)}
 .wrap{max-width:980px;margin:40px auto;padding:0 16px}
 .brand{display:flex;align-items:center;gap:10px;margin:0 0 14px 0}
 .brand img{width:40px;height:40px;border-radius:8px}
 .brand b{font-size:20px}
-h1{margin:0 0 10px 0}p{margin:0 0 16px 0;color:var(--muted)}
+h1{margin:0 0 10px 0}
+p{margin:0 0 16px 0;color:var(--muted)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
 .card{background:var(--card);border:1px solid var(--b);border-radius:16px;padding:18px;display:flex;flex-direction:column}
-.badge{display:inline-block;background:#fff1c2;border:1px solid #ffd26e;border-radius:10px;padding:6px 10px;margin-bottom:8px}
+.badge{display:inline-block;background:#fff1c2;border:1px solid #ffd26e;border-radius:10px;padding:6px 10px;margin-bottom:8px;font-weight:700}
+.pill{display:inline-block;background:var(--pill);border:1px solid var(--pillbd);border-radius:999px;padding:6px 10px;margin-top:6px;font-weight:700;font-size:12px;color:#0b5fff}
 .price{font-size:34px;font-weight:800;margin:6px 0}
-.was{color:#666;text-decoration:line-through;margin-right:6px;font-weight:700}
-ul{padding-left:18px;margin:8px 0 18px 0}li{margin:6px 0}
+ul{padding-left:18px;margin:8px 0 18px 0}
+li{margin:6px 0}
 .btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;padding:10px 16px;border-radius:999px;font-weight:800;text-align:center}
 .btn.alt{background:#111}
 .pair{display:flex;gap:8px;flex-wrap:wrap}
 .note{background:#f1f5ff;border:1px solid #d8e3ff;border-radius:12px;padding:12px;margin-top:16px}
 .footer{margin-top:24px;text-align:center}
-.count{font-weight:800}
-   .pair{display:flex;gap:8px;flex-wrap:wrap}
-.note{background:#f1f5ff;border:1px solid #d8e3ff;border-radius:12px;padding:12px;margin-top:16px}
-.footer{margin-top:24px;text-align:center}
-.count{font-weight:800}
 </style>
-   <!-- Favicon -->
+
+<!-- Favicon -->
 <link rel="icon" href="./favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="./favicon-180.png">
 
 <!-- Social share (OG/Twitter) -->
 <meta property="og:title" content="IB IA/EE Bootcamp — SkillNestEdu">
-<meta property="og:description" content="Five days from question to claim. Slides, GoodNotes, and plug-and-play prompts.">
+<meta property="og:description" content="₹1,999 for 5 days + a bonus Statistics day. Slides, GoodNotes, and plug-and-play prompts.">
 <meta property="og:image" content="https://apachedu.github.io/skillnest-gamma-template/og_iaee_bootcamp.png">
 <meta property="og:url" content="https://apachedu.github.io/skillnest-gamma-template/">
 <meta name="twitter:card" content="summary_large_image">
+</head>
 
-</head><body>
+<body>
 <div class="wrap">
   <div class="brand">
     <img src="./assets/logo-skillnest.png" alt="SkillNestEdu logo">
@@ -50,26 +53,26 @@ ul{padding-left:18px;margin:8px 0 18px 0}li{margin:6px 0}
   <p>Simple, student-friendly plans in INR. Pay via UPI, netbanking, or card.</p>
 
   <div class="grid">
+    <!-- Boot Camp seat -->
     <div class="card">
-      <span class="badge" id="bc-badge" style="display:none"></span>
-      <div id="countdown" style="display:none;margin:-2px 0 8px 0"></div>
-      <h3>IB EE/IA Boot Camp Seat</h3>
-       <span id="eb-badge" class="badge" style="display:none;"></span>
-      <div class="price"><span id="bc-was" class="was" style="display:none">₹ 1,999</span><span id="bc-now">₹ 1,999</span></div>
+      <span class="badge">IB EE/IA Boot Camp Seat</span>
+      <div class="price">₹ 1,999</div>
       <ul>
         <li>1-week intensive cohort</li>
         <li>Research → data → analysis → write-up</li>
         <li><b>Downloadable practice PDF — lifetime access</b></li>
         <li><b>Recording access — 30 days</b></li>
-        <li><b>One free reschedule (Regular plan only)</b></li>
+        <li><b>One free reschedule (Regular plan)</b></li>
+        <li><b>Bonus: 1-day Statistics session included</b> (mean, median, mode, IQR, outliers, r, slope b)</li>
       </ul>
       <div class="pair">
-        <a class="btn" id="bc-upi"   href="#" target="_blank" rel="noopener">Pay with UPI</a>
-        <a class="btn alt" id="bc-card" href="#" target="_blank" rel="noopener">Pay with Card/Netbanking</a>
+        <a class="btn" href="https://rzp.io/rzp/hWeiHeL"  target="_blank" rel="noopener">Pay with UPI</a>
+        <a class="btn alt" href="https://rzp.io/rzp/hWeiHeL" target="_blank" rel="noopener">Pay with Card/Netbanking</a>
       </div>
-      <p style="margin-top:8px;color:#666"><small>Early-bird excludes reschedule; all Boot Camp seats include PDF and 30-day recording access.</small></p>
+      <span class="pill">Seats limited · immediate confirmation</span>
     </div>
 
+    <!-- CaseLab Basic -->
     <div class="card">
       <span class="badge">CaseLab</span>
       <h3>CaseLab Basic</h3>
@@ -85,6 +88,7 @@ ul{padding-left:18px;margin:8px 0 18px 0}li{margin:6px 0}
       </div>
     </div>
 
+    <!-- CaseLab Premium -->
     <div class="card">
       <span class="badge">CaseLab</span>
       <h3>CaseLab Premium</h3>
@@ -102,51 +106,20 @@ ul{padding-left:18px;margin:8px 0 18px 0}li{margin:6px 0}
   </div>
 
   <div class="note">
-    Prices shown in INR. Gateway fees and taxes may apply. See <a href="./refunds.html">Refunds & Cancellations</a>.
+    Prices shown in INR. Gateway fees and taxes may apply. See <a href="./refunds.html">Refunds &amp; Cancellations</a>.
   </div>
 
   <div class="footer">
-    <p><a class="btn alt" href="./enroll.html">Go to Enroll</a>
-    <a class="btn" style="margin-left:8px" href="./bootcamp.html">See Boot Camp Curriculum</a></p>
+    <p>
+      <a class="btn alt" href="./enroll.html">Go to Enroll</a>
+      <a class="btn" style="margin-left:8px" href="./bootcamp.html">See Boot Camp Curriculum</a>
+    </p>
   </div>
 </div>
+</body>
+</html>
 
-<script>
-const EB_DEADLINE_IST = "2025-08-28T23:59:59+05:30";
-const BOOTCAMP = {
-  early:   { price:"₹ 1,599", upi:"https://rzp.io/rzp/ajHwvAiz", classic:"https://rzp.io/rzp/ajHwvAiz" },
-  regular: { price:"₹ 1,999", upi:"https://rzp.io/rzp/hWeiHeL",  classic:"https://rzp.io/rzp/hWeiHeL"  }
-};
-function isEarly(){ return Date.now() < new Date(EB_DEADLINE_IST).getTime(); }
-(function(){
-  const mode = (EB_DEADLINE_IST && isEarly()) ? "early" : "regular";
-  const cfg = BOOTCAMP[mode];
-  const was = document.getElementById('bc-was');
-  const now = document.getElementById('bc-now');
-  const upi = document.getElementById('bc-upi');
-  const card= document.getElementById('bc-card');
-  now.textContent = cfg.price;
-  upi.href = cfg.upi; card.href = cfg.classic;
-  if(mode==="early"){
-    was.style.display = 'inline';
-    const b = document.getElementById('bc-badge');
-    b.style.display='inline-block';
-    const d = new Date(EB_DEADLINE_IST);
-    b.textContent = "Early-bird ends " + d.toLocaleString(undefined,{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-    // countdown
-    const box = document.getElementById('countdown');
-    function tick(){
-      const left = new Date(EB_DEADLINE_IST).getTime() - Date.now();
-      if(left <= 0){ box.style.display='none'; return; }
-      const ds = Math.floor(left/86400000);
-      const hs = Math.floor((left%86400000)/3600000);
-      const ms = Math.floor((left%3600000)/60000);
-      const ss = Math.floor((left%60000)/1000);
-      box.style.display='block';
-      box.innerHTML = '<span class="count">⏳ ' + ds + 'd ' + hs + 'h ' + ms + 'm ' + ss + 's</span> left';
-    }
-    tick(); setInterval(tick,1000);
-  }
-})();
-</script>
-</body></html>
+
+        
+     
+     
