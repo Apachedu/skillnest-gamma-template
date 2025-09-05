@@ -25,7 +25,6 @@
     .badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
     .pill{background:var(--pill);border:1px solid var(--pillbd);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800}
     .price{display:flex;align-items:center;gap:12px;margin:10px 0}
-    .price s{color:#777}
     .cta{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
     .muted{color:#666}
     .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px}
@@ -34,23 +33,22 @@
     .footcta{display:flex;gap:10px;justify-content:center;margin:22px 0}
     footer{border-top:1px solid var(--line);padding:12px 16px;color:#6b7280;font-size:12px}
     .footwrap{max-width:980px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px}
-    /* Early-bird badge */
-    .badge{display:inline-block;background:#fff1c2;border:1px solid #ffd26e;border-radius:10px;padding:6px 10px;font-weight:700}
     @media (max-width:820px){ .grid3{grid-template-columns:1fr} }
   </style>
-<!-- Favicon -->
-<link rel="icon" href="./favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="./favicon-180.png">
 
-<!-- Social share (OG/Twitter) -->
-<meta property="og:title" content="IB IA/EE Bootcamp — SkillNestEdu">
-<meta property="og:description" content="Five days from question to claim. Slides, GoodNotes, and plug-and-play prompts.">
-<meta property="og:image" content="https://apachedu.github.io/skillnest-gamma-template/og_iaee_bootcamp.png">
-<meta property="og:url" content="https://apachedu.github.io/skillnest-gamma-template/">
-<meta name="twitter:card" content="summary_large_image">
+  <!-- Favicon -->
+  <link rel="icon" href="./favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./favicon-180.png">
+
+  <!-- Social share (OG/Twitter) -->
+  <meta property="og:title" content="IB IA/EE Bootcamp — SkillNestEdu">
+  <meta property="og:description" content="Five days from question to claim. Slides, GoodNotes, and plug-and-play prompts.">
+  <meta property="og:image" content="https://apachedu.github.io/skillnest-gamma-template/og_iaee_bootcamp.png">
+  <meta property="og:url" content="https://apachedu.github.io/skillnest-gamma-template/">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
-  
+
 <body>
 
 <header>
@@ -69,7 +67,8 @@
     </div>
   </nav>
 </header>
-<!-- NEW hero goes here -->
+
+<!-- HERO -->
 <section id="hero" style="padding:56px 0; max-width: 960px; margin: 0 auto; line-height:1.6">
   <h1 style="font-size:2.2rem; margin:0 0 12px">IB IA/EE, simplified in five focused days.</h1>
 
@@ -87,14 +86,30 @@
   <p style="margin:0 0 16px"><strong>Who it’s for:</strong> IB students who want clarity, and teachers/coordinators who
     want a plug-and-play structure that matches how assessors read: one key number, units, N, and honest limits.</p>
 
-  <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap">
+  <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:8px">
     <a href="./pricing.html?utm_source=site&utm_medium=hero&utm_campaign=iaee"
        style="background:#0b5fff;color:#fff;text-decoration:none;padding:12px 18px;border-radius:10px;font-weight:600">
       Join the IA/EE Bootcamp — ₹1,999
     </a>
-    <span style="opacity:.7">Five days. One clear path from question to claim. <em>(Facilitator pack for coordinators.)</em></span>
+    <a href="./bootcamp.html?utm_source=site&utm_medium=hero_secondary"
+       style="text-decoration:none;padding:12px 18px;border-radius:10px;border:1px solid #c9d1e5;color:#111;background:#fff;">
+      See curriculum
+    </a>
+  </div>
+
+  <!-- Bonus pill -->
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <span style="background:#eef2ff;color:#0b5fff;padding:6px 10px;border-radius:999px;font-weight:600;font-size:.9rem">
+      Bonus: 1-day Statistics session included
+    </span>
+    <span style="opacity:.7">Mean • Median • Mode • IQR • Outliers • r • slope b</span>
+  </div>
+
+  <div style="margin-top:8px;opacity:.7">
+    Five days. One clear path from question to claim. <em>(Facilitator pack for coordinators.)</em>
   </div>
 </section>
+
 <div class="wrap">
   <div class="card">
     <div class="badges">
@@ -106,10 +121,14 @@
     <h1 style="margin:6px 0 8px 0;">Crack your IB EE/IA. Learn like a researcher, deliver like a topper.</h1>
     <p class="muted">One-week boot camp that takes students from idea → research question → data → analysis → write-up. Mapped to IB criteria, with worked examples and templates.</p>
 
-    <span id="eb" class="badge" style="display:none;"></span>
-
+    <!-- Price (no strike-through; consistent with hero) -->
     <div class="price">
-      <s>₹1,999</s> <strong style="font-size:22px;">₹1,599</strong>
+      <strong style="font-size:22px;">₹1,999</strong>
+    </div>
+
+    <!-- Bonus note on the card as well -->
+    <div style="margin:6px 0 2px">
+      <span class="pill">Bonus stats day included</span>
     </div>
 
     <div class="cta">
@@ -143,7 +162,7 @@
       <ul>
         <li>Not a fit after the first session? 50% credit toward a future cohort (tell us within 24h).</li>
         <li>Can’t make your slot? One free reschedule on the Regular plan.</li>
-        <li>Read the <a href="refunds.html">refund & cancellation policy</a>.</li>
+        <li>Read the <a href="refunds.html">refund &amp; cancellation policy</a>.</li>
       </ul>
     </div>
   </div>
@@ -164,26 +183,9 @@
   </div>
 </footer>
 
-<script>
-  // Optional: Early-bird badge (same deadline as enroll page)
-  (function(){
-    const DEADLINE = "2025-08-28T23:59:59+05:30";
-    try{
-      const el = document.getElementById('eb');
-      if(!el) return;
-      if(Date.now() < new Date(DEADLINE).getTime()){
-        const d = new Date(DEADLINE);
-        el.style.display='inline-block';
-        el.textContent = "Early-bird ₹1,599 ends " +
-          d.toLocaleString(undefined,{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-      }
-    }catch(e){}
-  })();
-</script>
-
 </body>
 </html>
 
+  
+   
         
-    
-         
