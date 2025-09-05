@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Enroll — SkillNestEdu Boot Camp</title>
   <style>
-    :root{--ink:#111;--bg:#fafafa;--line:#eee;--brand:#0b5fff}
+    :root{--ink:#111;--bg:#fafafa;--line:#eee;--brand:#0b5fff;--pill:#eef2ff;--pillbd:#c7d2fe}
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:var(--bg);color:var(--ink)}
     .wrap{max-width:860px;margin:28px auto;padding:0 16px}
     .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
@@ -16,6 +16,8 @@
     .brand{display:flex;align-items:center;gap:8px}
     .brand img{height:22px;width:auto}
     h1{margin:6px 0 8px 0}
+    .price{font-size:28px;font-weight:800;margin:6px 0}
+    .pill{display:inline-block;background:var(--pill);border:1px solid var(--pillbd);border-radius:9999px;padding:6px 10px;margin:6px 0;font-weight:700;font-size:12px;color:#0b5fff}
     label{font-size:14px;font-weight:600}
     input,select,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;margin:6px 0 14px 0}
     .row{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 10px 0}
@@ -25,8 +27,6 @@
     .note{background:#f1f5ff;border:1px solid #d8e3ff;border-radius:10px;padding:10px;margin-top:12px}
     .qr{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:10px}
     .qr img{max-width:220px;height:auto;border-radius:10px;border:1px solid #e5e7eb;background:#fff}
-    .badge{display:inline-block;background:#fff1c2;border:1px solid #ffd26e;border-radius:10px;padding:6px 10px;margin:8px 0;font-weight:700}
-    .disabled{opacity:.6;pointer-events:none}
   </style>
 </head>
 <body>
@@ -47,11 +47,11 @@
 
 <div class="wrap">
   <div class="card">
-    <h1>Enroll / Join Waitlist</h1>
-    <!-- Early-bird badge (script toggles this) -->
-    <span id="eb-badge" class="badge" style="display:none;"></span>
+    <h1>Enroll in the IB EE/IA Boot Camp</h1>
+    <div class="price">₹ 1,999</div>
+    <span class="pill">Bonus: 1-day Statistics session included</span>
 
-    <p><a class="btn" href="./pricing.html">View pricing →</a></p>
+    <p style="margin-top:8px"><a class="btn" href="./pricing.html">View pricing →</a></p>
     <p>Seats are limited. Fill this quick form and we’ll confirm by email.</p>
 
     <form id="enrollForm" action="https://formsubmit.co/contact@skillnestedu.com" method="POST" novalidate>
@@ -83,12 +83,12 @@
 
       <div class="row">
         <button class="btn alt" type="submit" id="submitOnly">Submit (no payment)</button>
-        <button class="btn" type="button" id="submitAndPayCard">Submit & Pay (Card/Netbanking)</button>
-        <a class="btn" id="payUpiBtn" href="#" target="_blank" rel="noopener">Pay with UPI (Link)</a>
+        <button class="btn" type="button" id="submitAndPayCard">Submit &amp; Pay (Card/Netbanking)</button>
+        <a class="btn" id="payUpiBtn" href="https://rzp.io/rzp/hWeiHeL" target="_blank" rel="noopener">Pay with UPI (Link)</a>
       </div>
 
       <div id="upi" class="note">
-        <strong>UPI (instant):</strong> Scan this QR with any UPI app. After paying, keep the confirmation or reference ID. You should still submit this form so we have your contact details.
+        <strong>UPI (instant):</strong> Scan this QR with any UPI app. After paying, keep the confirmation or reference ID. Please still submit this form so we have your contact details.
         <div class="qr">
           <img src="assets/razorpay-qr.jpeg" alt="Razorpay UPI QR for SkillNestEdu">
           <p><b>How:</b> GPay / PhonePe / Paytm → Scan → Confirm amount → Pay.</p>
@@ -102,7 +102,7 @@
         <li>≥ 7 days before start: full refund (−₹100 processing) or free transfer.</li>
         <li>3–6 days: 70% refund or free transfer.</li>
         <li>≤ 48 hours: no refund; one deferral in 6 months (₹500) or free seat transfer.</li>
-        <li>After start: 0–1 session & notify in 24h → 50% credit; 2+ sessions → no refund/credit.</li>
+        <li>After start: 0–1 session &amp; notify in 24h → 50% credit; 2+ sessions → no refund/credit.</li>
       </ul>
       <p style="margin:8px 0 0 0"><a href="./refunds.html">Read full policy →</a></p>
     </div>
@@ -112,35 +112,17 @@
   </div>
 </div>
 
-<!-- Hardened Early-Bird + payments wiring -->
 <script>
 (function(){
-  const EB_DEADLINE_IST = "2025-08-28T23:59:59+05:30";
-  const LINKS = {
-    early:   { upi:"https://rzp.io/rzp/ajHwvAiz", classic:"https://rzp.io/rzp/ajHwvAiz" },
-    regular: { upi:"https://rzp.io/rzp/hWeiHeL",  classic:"https://rzp.io/rzp/hWeiHeL"  }
-  };
+  // constants
+  const PAY_LINK = "https://rzp.io/rzp/hWeiHeL";
 
-  function isEarly(){ return EB_DEADLINE_IST && (Date.now() < new Date(EB_DEADLINE_IST).getTime()); }
-  function currentLinks(){ return isEarly() ? LINKS.early : LINKS.regular; }
+  // thanks redirect (same folder as this page)
   function siteBase(){ return window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, "/"); }
   const THANKS_URL = siteBase() + "thanks.html";
 
-  // Early-bird badge (optional)
-  (function(){
-    const b = document.getElementById('eb-badge');
-    if(!b) return;
-    if(isEarly()){
-      const d = new Date(EB_DEADLINE_IST);
-      b.style.display = 'inline-block';
-      b.textContent = "Early-bird ₹1,999 ends " + d.toLocaleString(undefined,{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-    } else {
-      b.style.display = 'none';
-    }
-  })();
-
-  // Form & buttons
-  const form = document.getElementById('enrollForm');
+  // form & buttons
+  const form      = document.getElementById('enrollForm');
   const nextField = document.getElementById('nextUrl');
   function setNext(url){ if(nextField) nextField.value = url; }
 
@@ -153,28 +135,24 @@
   if(payCard){
     payCard.addEventListener('click', function(){
       if(form && form.reportValidity && !form.reportValidity()) return;
-      const link = (currentLinks().classic || THANKS_URL);
-      setNext(link);
+      setNext(PAY_LINK);            // submit then land on payment
       if(form) form.submit();
     });
   }
 
+  // UPI button already points to PAY_LINK in HTML; this is a safety fallback
   const payUpiBtn = document.getElementById('payUpiBtn');
-  if(payUpiBtn){
-    payUpiBtn.addEventListener('click', function(e){
-      const link = currentLinks().upi;
-      if(!link){
-        e.preventDefault();
-        const upi = document.getElementById('upi');
-        if(upi) upi.scrollIntoView({behavior:'smooth'});
-        alert("UPI link not set yet. You can scan the on-page QR.");
-      } else {
-        payUpiBtn.href = link;
-      }
-    });
-  }
+  if(payUpiBtn && !payUpiBtn.getAttribute('href')) payUpiBtn.setAttribute('href', PAY_LINK);
 })();
 </script>
 
 </body>
 </html>
+
+
+      
+       
+ 
+
+
+      
