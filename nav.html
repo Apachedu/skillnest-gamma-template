@@ -1,23 +1,38 @@
 <style>
 .topnav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #eee}
 .topnav .wrap{max-width:980px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+
+/* NEW: brand styling */
+.topnav .brand{display:flex;align-items:center;gap:8px;text-decoration:none;font-weight:800;color:#111}
+
 .topnav img{width:28px;height:28px;border-radius:6px}
 .topnav a{color:#111;text-decoration:none;font-weight:600;margin:0 8px}
 .topnav a.btn{background:#0b5fff;color:#fff;padding:8px 12px;border-radius:999px}
 .topnav .spacer{flex:1}
 .wa-float{position:fixed;right:14px;bottom:14px;background:#25D366;color:#fff;padding:10px 14px;border-radius:999px;font-weight:800;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.15)}
 </style>
-<div class="topnav">
+
+<div class="topnav" role="navigation" aria-label="Main">
   <div class="wrap">
-    <img src="./assets/logo-skillnest.png" alt="SkillNestEdu">
+    <!-- NEW: brand link to home + updated alt + visible name -->
+    <a class="brand" href="./index.html" aria-label="SkillNest IA/EE Bootcamp — Home">
+      <img src="./assets/logo-skillnest.png" alt="SkillNest IA/EE Bootcamp">
+      <strong>SkillNest IA/EE Bootcamp</strong>
+    </a>
+
+    <!-- Keep your links (you can drop Home since the brand links home) -->
     <a href="./index.html">Home</a>
     <a href="./enroll.html">Enroll</a>
     <a href="./pricing.html">Pricing</a>
     <a href="./bootcamp.html">Curriculum</a>
     <a href="./research-resources.html">Resources</a>
     <a href="./faq.html">FAQ</a>
+
     <div class="spacer"></div>
-    <a class="btn" href="./enroll.html">Join now</a>
+
+    <!-- Add UTMs if you want simple tracking -->
+    <a class="btn" href="./enroll.html?utm_source=site&utm_medium=nav&utm_campaign=iaee">Join now</a>
   </div>
 </div>
-<a class="wa-float" href="https://wa.me/917060403023" target="_blank" rel="noopener">WhatsApp</a>
+
+<a class="wa-float" href="https://wa.me/917060403023" target="_blank" rel="noopener noreferrer">WhatsApp</a>
